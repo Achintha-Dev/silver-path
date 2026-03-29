@@ -48,18 +48,17 @@ const destinationSchema = new mongoose.Schema({
     type: String
   },
   // Cloudinary Image Data
-  image: {
-    url: String,      // The URL provided by Cloudinary to show the image
-    public_id: String // Useful if you want to delete/replace the image later
-  },
+  images: [
+    {
+      url: { type: String, required: true },
+      public_id: { type: String, required: true }
+    }
+  ],
   distanceFromRideegama: {
     type: Number, 
     required: true
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+
 }, { timestamps: true });
 
 const Destination = mongoose.model("Destination", destinationSchema);
