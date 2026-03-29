@@ -35,6 +35,3 @@ backend/uploads/
 # OS files
 .DS_Store
 Thumbs.db
-
-# Lock files (optional but recommended)
-package-lock.json
