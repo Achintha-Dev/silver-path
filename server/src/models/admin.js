@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import validator, { isLowercase } from "validator";
+import bcrypt from "bcryptjs";
 
 const adminSchema = new mongoose.Schema({
     email: {
@@ -25,6 +26,18 @@ const adminSchema = new mongoose.Schema({
         trim: true
     }
 }, {timestamps: true});
+
+// Hash password before saving
+adminSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next()
+  this.password = await bcrypt.hash(this.password, 10)  // cost factor 10 
+  next()
+})
+
+// Compare password method
+adminSchema.methods.comparePassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password)
+}
 
 const Admin = mongoose.model("Admin", adminSchema);
 export default Admin;
