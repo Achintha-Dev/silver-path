@@ -1,4 +1,7 @@
 import dns from 'dns';
+// fix DNS resolution issues by using public DNS servers
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -9,13 +12,11 @@ import destinationRoutes from './routes/destinationsRoute.js';
 
 dotenv.config();
 
-// fix DNS resolution issues by using public DNS servers
-dns.setServers(['8.8.8.8', '1.1.1.1']);
 
 const app = express();
 
 // middleware
-app.use(cors({ origin: process.env.CLIENT_URL || 'https://localhost:5173' }));
+app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

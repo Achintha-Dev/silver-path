@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import Admin from '../models/admin.js'
 
 // Generate JWT token
-const generateToken = (admin) => {
+const generateToken = (id) => {
   return jwt.sign(
     { id },
     process.env.JWT_SECRET,

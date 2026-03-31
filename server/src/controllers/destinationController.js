@@ -12,12 +12,12 @@ export const getAllDestinations = async (req, res) => {
 
         // Filter by category if provided
         if (category && category !== 'All') {
-        filter.category = category
+          filter.category = category
         }
 
         // Filter by distance if provided
         if (distance) {
-        filter.distanceFromRideegama  = { $lte: Number(distance) }
+          filter.distanceFromRideegama  = { $lte: Number(distance) }
         }
 
         const destinations = await Destination.find(filter).sort({ distanceFromRideegama: 1 });
@@ -29,6 +29,21 @@ export const getAllDestinations = async (req, res) => {
     }
 };
 
+// @desc    Get single destination by ID
+// @route   GET /api/destinations/:id
+// @access  Public
+export const getDestinationById = async (req, res) => {
+    try {
+        const destination = await Destination.findById(req.params.id);
+        if (!destination) return res.status(404).json({ success: false, message: 'Destination not found' });
+        return res.status(200).json({ success: true, data: destination });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+
 // @desc    Create new destination
 // @route   POST /api/destinations
 // @access  Private (Admin only)
@@ -39,13 +54,31 @@ export const createDestination = async (req, res) => {
             facilities, travelTips, distanceFromRideegama
         } = req.body;
 
-        // // Build images array from uploaded files
-        const images = req.files.map(file => ({
+        // Validate required fields
+        const missingFields = [];
+        if (!name) missingFields.push('name');
+        if (!category) missingFields.push('category (must be: Religious, Nature, Heritage, Cultural, or Recreational)');
+        if (!description) missingFields.push('description');
+        if (!address) missingFields.push('address');
+        if (!lat) missingFields.push('lat');
+        if (!lng) missingFields.push('lng');
+        if (!openingHours) missingFields.push('openingHours');
+        if (!distanceFromRideegama) missingFields.push('distanceFromRideegama');
+
+        if (missingFields.length > 0) {
+            return res.status(400).json({ 
+                success: false, 
+                message: `Missing required fields: ${missingFields.join(', ')}`,
+                received: { name, category, description, address, lat, lng, openingHours, distanceFromRideegama }
+            });
+        }
+
+        // Build images array from uploaded files
+        const images = (req.files && req.files.length > 0) ? req.files.map(file => ({
             url: file.path,
             public_id: file.filename
-        }));
+        })) : [];
 
-        // Upload image to Cloudinary if file was uploaded
         const newDestination = new Destination({
             name,
             category,
@@ -53,18 +86,28 @@ export const createDestination = async (req, res) => {
             address,
             location: { lat: Number(lat), lng: Number(lng) },
             openingHours,
-            entryFee,
+            entryFee: entryFee || 'Free',
             facilities,
             travelTips,
             distanceFromRideegama: Number(distanceFromRideegama),
             images
         });
-        await newDestination.save();
-        return res.status(201).json({ success: true, data: newDestination });
+
+        // console.log("Destination object before save:", newDestination);
+        
+        const savedDestination = await newDestination.save();
+        
+        // console.log("Saved destination:", savedDestination);
+        
+        return res.status(201).json({ success: true, data: savedDestination });
 
     } catch (error) {
-        console.log(error);
-        return res.status(400).json({ success: false, message: error.message });
+        console.error("Error creating destination:", error);
+        return res.status(400).json({ 
+            success: false, 
+            message: error.message,
+            details: error
+        });
     }
 };
 
@@ -79,34 +122,36 @@ export const updateDestination = async (req, res) => {
         const { name, category, description, address,
             lat, lng, openingHours, entryFee,
             facilities, travelTips, distanceFromRideegama  
-        } = req.body;
+        } = req.body || {};
 
         // Only add new images if files were uploaded
         if (req.files && req.files.length > 0) {
-        const newImages = req.files.map(file => ({
-            url: file.path,
-            public_id: file.filename
-        }))
+            const newImages = req.files.map(file => ({
+                url: file.path,
+                public_id: file.filename
+            }))
             destination.images.push(...newImages)
         }
 
-        // Update all other fields
-        destination.name = name
-        destination.category = category
-        destination.description = description
-        destination.address = address
-        destination.location = { lat: Number(lat), lng: Number(lng) }
-        destination.openingHours = openingHours
-        destination.entryFee = entryFee
-        destination.facilities = facilities
-        destination.travelTips = travelTips
-        destination.distanceFromRideegama = Number(distanceFromRideegama)
+        // Update only provided fields
+        if (name !== undefined) destination.name = name;
+        if (category !== undefined) destination.category = category;
+        if (description !== undefined) destination.description = description;
+        if (address !== undefined) destination.address = address;
+        if (lat !== undefined && lng !== undefined) {
+            destination.location = { lat: Number(lat), lng: Number(lng) }
+        }
+        if (openingHours !== undefined) destination.openingHours = openingHours;
+        if (entryFee !== undefined) destination.entryFee = entryFee;
+        if (facilities !== undefined) destination.facilities = facilities;
+        if (travelTips !== undefined) destination.travelTips = travelTips;
+        if (distanceFromRideegama !== undefined) destination.distanceFromRideegama = Number(distanceFromRideegama);
 
         const updatedDestination = await destination.save()
         return res.status(200).json({ success: true, data: updatedDestination });
 
     } catch (error) {
-        console.log(error);
+        console.error('Error updating destination:', error);
         return res.status(400).json({ success: false, message: error.message });
     }
 };

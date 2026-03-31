@@ -1,3 +1,6 @@
+import dns from 'dns'
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Admin from "../models/admin.js";
@@ -14,8 +17,8 @@ const seedAdmin = async () => {
         if (!existingAdmin) {
             // Create a new admin
             const newAdmin = new Admin({
-                name: 'Silver Path Admin',
-                email: 'admin@silverpath.com',
+                name: 'Achintha Bandara',
+                email: 'achintha477@gmail.com',
                 password: 'Admin@12345'  
             });
             await newAdmin.save();
