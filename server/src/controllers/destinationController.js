@@ -36,7 +36,7 @@ export const createDestination = async (req, res) => {
     try {
         const { name, category, description, address,
             lat, lng, openingHours, entryFee,
-            facilities, travelTips, distance
+            facilities, travelTips, distanceFromRideegama
         } = req.body;
 
         // // Build images array from uploaded files
@@ -78,7 +78,7 @@ export const updateDestination = async (req, res) => {
 
         const { name, category, description, address,
             lat, lng, openingHours, entryFee,
-            facilities, travelTips, distance
+            facilities, travelTips, distanceFromRideegama  
         } = req.body;
 
         // Only add new images if files were uploaded

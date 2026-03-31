@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import Admin from '../models/admin.js';
 
-const authMiddleware = async (req, res, next) => {
+export const protect = async (req, res, next) => {
     try {
         
         // Check if token is provided in the Authorization header
@@ -21,7 +21,8 @@ const authMiddleware = async (req, res, next) => {
         const admin = await Admin.findById(decoded.id).select('-password');
         if(!admin) return res.status(401).json({ success: false, message: 'Admin not found' });
 
-
+        req.admin = admin; // Attach admin info to request object
+        next(); // Proceed to the next middleware or route handler
 
     } catch (error) {
         if (error.name === 'TokenExpiredError') {
@@ -37,4 +38,11 @@ const authMiddleware = async (req, res, next) => {
     }
 };
 
-export default authMiddleware;
+// Middleware to check if the user is an admin (can be used for role-based access control)
+export const admin = (req, res, next) => {
+    if (req.admin) {
+        next();
+    } else {
+        return res.status(403).json({ success: false, message: 'Access denied. Admins only' });
+    }
+};

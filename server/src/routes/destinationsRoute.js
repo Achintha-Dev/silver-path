@@ -1,0 +1,32 @@
+import { getAllDestinations, createDestination, updateDestination, addImages, deleteImage, deleteDestination } from '../controllers/destinationsController.js';
+import express from 'express';
+import { protect, admin } from '../middleware/authMiddleware.js';
+import upload from '../config/cloudinaryConfig.js';
+
+const router = express.Router();
+
+// @desc    Get all destinations
+// @route   GET /api/destinations
+router.get('/', getAllDestinations);
+
+// @desc    Create a new destination
+// @route   POST /api/destinations
+router.post('/', protect, admin, createDestination);
+
+// @desc    Update a destination
+// @route   PUT /api/destinations/:id
+router.put('/:id', protect, admin, updateDestination);
+
+// @desc    Add images to a destination
+// @route   POST /api/destinations/:id/images
+router.post('/:id/images', protect, admin, upload.array('images', 5), addImages);
+
+// @desc    Delete an image from a destination
+// @route   DELETE /api/destinations/:id/images/:imageId
+router.delete('/:id/images/:imageId', protect, admin, deleteImage);
+
+// @desc    Delete a destination
+// @route   DELETE /api/destinations/:id
+router.delete('/:id', protect, admin, deleteDestination);
+
+export default router;

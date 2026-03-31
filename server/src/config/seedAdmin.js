@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import Admin from "../models/admin";
+import Admin from "../models/admin.js";
+
+dotenv.config();
 
 const seedAdmin = async () => {
     try {
@@ -20,14 +22,15 @@ const seedAdmin = async () => {
 
             console.log('Admin seeded successfully');
             process.exit(0);
-            
+
         } else {
             console.log('Admin already exists');
             process.exit(1);
         }
     } catch (error) {
         console.error('Error seeding admin:', error);
-        return res.status(500).json({ success: false, message: 'Server error' });
         process.exit(1);
     }
 };
+
+seedAdmin();

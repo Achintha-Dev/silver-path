@@ -4,7 +4,7 @@ import Admin from '../models/admin.js'
 // Generate JWT token
 const generateToken = (admin) => {
   return jwt.sign(
-    { id: admin.id, email: admin.email },
+    { id },
     process.env.JWT_SECRET,
     { expiresIn: '1d' }
   );
@@ -40,4 +40,38 @@ export const loginAdmin = async (req, res) => {
         console.error('Login error:', error);
         return res.status(500).json({ success: false, message: 'Server error' });
     }
+}
+
+// @desc    Get current logged in admin
+// @route   GET /api/auth/me
+// @access  Private
+export const getMe = async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin.id).select('-password')
+
+    return res.status(200).json({
+      success: true,
+      data: admin
+    })
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    })
+  }
+}
+
+// @desc Logout admin (handled on frontend by deleting token, but can be used for server-side session management if needed)
+// @route POST /api/auth/logout
+// @access Private
+export const logoutAdmin = async (req, res) => {
+  try {
+    return res.status(200).json({
+      success: true,
+      message: 'Logged out successfully'
+    })
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message })
+  }
 }
