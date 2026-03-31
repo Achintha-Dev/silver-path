@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import validator, { isLowercase } from "validator";
+import validator from "validator";  
 import bcrypt from "bcryptjs";
 
 const adminSchema = new mongoose.Schema({

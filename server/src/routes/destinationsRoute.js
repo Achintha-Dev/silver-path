@@ -1,7 +1,7 @@
-import { getAllDestinations, createDestination, updateDestination, addImages, deleteImage, deleteDestination } from '../controllers/destinationsController.js';
+import { getAllDestinations, createDestination, updateDestination, addImages, deleteImage, deleteDestination } from '../controllers/destinationController.js';
 import express from 'express';
 import { protect, admin } from '../middleware/authMiddleware.js';
-import upload from '../config/cloudinaryConfig.js';
+import { upload } from '../config/cloudinaryConfig.js';
 
 const router = express.Router();
 
