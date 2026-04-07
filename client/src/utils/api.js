@@ -2,7 +2,6 @@ import axios from "axios";
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api",
-    withCredentials: true,
 });
 
 // automatically add the access token to the headers of each protected request
@@ -21,7 +20,7 @@ api.interceptors.response.use(
         if (error.response?.status === 401) {
             localStorage.removeItem("adminToken");
             localStorage.removeItem("adminInfo");
-            window.location.href = "/login";
+            window.location.href = "/";
         }
         return Promise.reject(error);
     }
