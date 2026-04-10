@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Custom Scrollbar Styles */
+html, body {
+  min-height: 100%;
+  @apply scrollbar scrollbar-thin;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34, 197, 94, 0.8) transparent;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(34, 197, 94, 0.8);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.scrollbar-auto-hide {
+  scrollbar-color: transparent transparent;
+}
+
+.scrollbar-auto-hide::-webkit-scrollbar-thumb {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.scrollbar-auto-hide:hover::-webkit-scrollbar-thumb,
+.scrollbar-auto-hide.scrolling::-webkit-scrollbar-thumb {
+  opacity: 1;
+}
+
+.scrollbar-auto-hide.scrolling {
+  scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+}
+
