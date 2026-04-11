@@ -41,6 +41,7 @@ function Hero({ onSearch }) {
           >
             {/* Search Input */}
             <input
+            id='text'
               type="text"
               placeholder="Search temples, nature spots, heritage sites..."
               className="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/60 outline-none"

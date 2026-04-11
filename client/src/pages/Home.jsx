@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 
 // components
 import Navbar from '../components/Navbar'
-import CategoryBadge from '../components/CategoryBadge'
 import DestinationCard from '../components/DestinationCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 import api from '../utils/api'

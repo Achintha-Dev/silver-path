@@ -39,7 +39,7 @@ const DestinationCard = ({ dest }) => {
 
       {/* Content Area */}
       <div className="p-6">
-        <h3 className="text-xl font-black font-['Montserrat'] text-white uppercase tracking-tighter mb-2 group-hover:text-blue-400 transition-colors">
+        <h3 className="text-xl font-black font-['Montserrat'] text-white uppercase tracking-tighter mb-2 group-hover:text-green-500 transition-colors">
           {dest.name}
         </h3>
         
@@ -51,11 +51,11 @@ const DestinationCard = ({ dest }) => {
         {/* Footer Info */}
         <div className="flex items-center justify-between pt-4 border-t border-white/5">
           <div className="flex items-center gap-2 text-white/40 text-[11px] font-bold uppercase tracking-wider">
-            <FaClock className="text-blue-400/50" />
+            <FaClock className="text-green-500/50" />
             <span>{dest.openingHours}</span>
           </div>
           
-          <div className="flex items-center gap-1 text-blue-400 text-xs font-black uppercase tracking-widest group-hover:gap-3 transition-all">
+          <div className="flex items-center gap-1 text-green-500 text-xs font-black uppercase tracking-widest group-hover:gap-3 transition-all">
             Details <FaArrowRight />
           </div>
         </div>
