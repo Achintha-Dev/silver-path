@@ -27,17 +27,17 @@ const Navbar = () => {
   }, [])
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500  ${
       isScrolled
-        ? 'py-2 bg-white/10 backdrop-blur-md border-b border-white/20 shadow-xl'
-        : 'py-4 bg-transparent'
+        ? 'py-2 bg-white/30 backdrop-blur-sm border-b border-white/20 shadow-xl'
+        : 'py-4 bg-white/10'
     }`}>
       <div className="max-w-full mx-auto px-6 lg:px-12">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-10">
 
           {/* Brand - Montserrat added for the "Silver Path" look */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-3 group">
+            <Link to="/" className="flex items-center space-x-1 group">
               <FaGripfire className={`text-4xl transition-all duration-300 ${
                 isScrolled ? 'text-blue-400 drop-shadow-glow' : 'text-white'
               }`} />
@@ -45,7 +45,7 @@ const Navbar = () => {
               <div className="flex flex-col">
                 <span className={`text-xl font-black tracking-[0.2em] font-['Montserrat'] transition-all duration-300 ${
                   isScrolled 
-                    ? 'text-white drop-shadow-md' 
+                    ? 'text-white drop-shadow-md ' 
                     : 'bg-gradient-to-br from-white via-white/80 to-white/40 bg-clip-text text-transparent'
                 }`}>
                   SILVER PATH

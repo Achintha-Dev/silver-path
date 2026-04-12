@@ -8,6 +8,29 @@ const DestinationCard = ({ dest }) => {
     ? dest.images[0].url 
     : 'https://via.placeholder.com/400x300?text=No+Image+Available';
 
+  const categoryBadge = () => {
+    if (dest.category == 'Nature' || dest.category == 'nature') {
+      return <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-green-500/30 backdrop-blur-md text-white rounded-lg border border-white/20">Nature</span>;
+
+    } else if (dest.category == 'Heritage' || dest.category == 'Heritage') {
+      return <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-yellow-500/30 backdrop-blur-md text-white rounded-lg border border-white/20">Heritage</span>;
+
+    } else if (dest.category == 'Religious' || dest.category == 'religious') {
+      return <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-purple-500/30 backdrop-blur-md text-white rounded-lg border border-white/20">Religious</span>;
+
+    } else if (dest.category == 'Cultural' || dest.category == 'cultural'){
+      return <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-red-500/30 backdrop-blur-md text-white rounded-lg border border-white/20">Cultural</span>;
+
+    } else {
+      return <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-teal-500/30 backdrop-blur-md text-white rounded-lg border border-white/20">Recreational</span>;
+    }
+  }
+
+  const extractTime = (text) => {
+  const match = text.match(/\d{1,2}:\d{2}\s?(AM|PM)\s?[–-]\s?\d{1,2}:\d{2}\s?(AM|PM)/i);
+  return match ? match[0] : "N/A";
+};
+
   return (
     <Link
       to={`/destinations/${dest._id}`}
@@ -23,9 +46,7 @@ const DestinationCard = ({ dest }) => {
         
         {/* Category Badge - Using the enum categories from destinations.js */}
         <div className="absolute top-4 left-4">
-          <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-white/20 backdrop-blur-md text-white rounded-lg border border-white/20">
-            {dest.category}
-          </span>
+          {categoryBadge()}
         </div>
 
         {/* Distance Badge - Using distanceFromRideegama from your model */}
@@ -52,12 +73,10 @@ const DestinationCard = ({ dest }) => {
         <div className="flex items-center justify-between pt-4 border-t border-white/5">
           <div className="flex items-center gap-2 text-white/40 text-[11px] font-bold uppercase tracking-wider">
             <FaClock className="text-green-500/50" />
-            <span>{dest.openingHours}</span>
+            <span>{extractTime(dest.openingHours)}</span>
           </div>
           
-          <div className="flex items-center gap-1 text-green-500 text-xs font-black uppercase tracking-widest group-hover:gap-3 transition-all">
-            Details <FaArrowRight />
-          </div>
+          
         </div>
       </div>
 
