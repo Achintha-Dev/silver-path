@@ -6,10 +6,10 @@ import axios from 'axios';
 import { FaClock, FaTicketAlt, FaMapMarkerAlt, FaWalking, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiOutlineSparkles } from 'react-icons/hi';
 
-import Navbar from '../components/Navbar';
-import Body from '../components/Body';
-import MoreDestinations from '../components/MoreDestinations';
-import Footer from '../components/Footer';
+import Navbar from '../components/user/Navbar';
+import Body from '../components/user/Body';
+import MoreDestinations from '../components/user/MoreDestinations';
+import Footer from '../components/user/Footer';
 
 const DestinationDetail = () => {
   const { id } = useParams();

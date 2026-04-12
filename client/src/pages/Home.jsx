@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 // components
-import Navbar from '../components/Navbar'
-import DestinationCard from '../components/DestinationCard'
-import LoadingSpinner from '../components/LoadingSpinner'
+import Navbar from '../components/user/Navbar'
+import DestinationCard from '../components/user/DestinationCard'
+import LoadingSpinner from '../components/user/LoadingSpinner'
 import api from '../utils/api'
-import Hero from '../components/Hero'
-import Footer from '../components/Footer'
-import Body from '../components/Body'
+import Hero from '../components/user/Hero'
+import Footer from '../components/user/Footer'
+import Body from '../components/user/Body'
 
 // icons
 import { ImLeaf } from "react-icons/im";
