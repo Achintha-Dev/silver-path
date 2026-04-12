@@ -3,34 +3,27 @@ import { Link } from 'react-router-dom'
 import { FaMapMarkerAlt, FaClock, FaArrowRight } from 'react-icons/fa'
 
 const DestinationCard = ({ dest }) => {
+  
+  const CATEGORY_STYLES = {
+    Nature:       'bg-green-500/30 text-white border-white/20',
+    Heritage:     'bg-yellow-500/30 text-white border-white/20',
+    Religious:    'bg-purple-500/30 text-white border-white/20',
+    Cultural:     'bg-red-500/30 text-white border-white/20',
+    Recreational: 'bg-teal-500/30 text-white border-white/20',
+  }
+  
+  const extractTime = (text) => {
+    if (!text) return "N/A";
+    const match = text.match(/\d{1,2}:\d{2}\s?(AM|PM)\s?[–-]\s?\d{1,2}:\d{2}\s?(AM|PM)/i);
+    return match ? match[0] : text;
+  };
+  
   // Extract the first image or use a placeholder if the images array is empty
   const mainImage = dest.images && dest.images.length > 0 
     ? dest.images[0].url 
     : 'https://via.placeholder.com/400x300?text=No+Image+Available';
-
-  const categoryBadge = () => {
-    if (dest.category == 'Nature' || dest.category == 'nature') {
-      return <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-green-500/30 backdrop-blur-md text-white rounded-lg border border-white/20">Nature</span>;
-
-    } else if (dest.category == 'Heritage' || dest.category == 'Heritage') {
-      return <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-yellow-500/30 backdrop-blur-md text-white rounded-lg border border-white/20">Heritage</span>;
-
-    } else if (dest.category == 'Religious' || dest.category == 'religious') {
-      return <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-purple-500/30 backdrop-blur-md text-white rounded-lg border border-white/20">Religious</span>;
-
-    } else if (dest.category == 'Cultural' || dest.category == 'cultural'){
-      return <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-red-500/30 backdrop-blur-md text-white rounded-lg border border-white/20">Cultural</span>;
-
-    } else {
-      return <span className="px-3 py-1 text-[10px] font-black uppercase tracking-widest bg-teal-500/30 backdrop-blur-md text-white rounded-lg border border-white/20">Recreational</span>;
-    }
-  }
-
-  const extractTime = (text) => {
-  const match = text.match(/\d{1,2}:\d{2}\s?(AM|PM)\s?[–-]\s?\d{1,2}:\d{2}\s?(AM|PM)/i);
-  return match ? match[0] : "N/A";
-};
-
+    const badgeStyle = CATEGORY_STYLES[dest.category] || 'bg-gray-500/30 text-white border-white/20';
+    
   return (
     <Link
       to={`/destinations/${dest._id}`}
@@ -42,11 +35,16 @@ const DestinationCard = ({ dest }) => {
           src={mainImage}
           alt={dest.name}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          onError={(e) => {         // handle broken image links
+            e.target.src = 'https://placehold.co/400x300?text=No+Image+Available';
+          }}
         />
         
         {/* Category Badge - Using the enum categories from destinations.js */}
         <div className="absolute top-4 left-4">
-          {categoryBadge()}
+          <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-widest backdrop-blur-md rounded-lg border ${badgeStyle}`}>
+            {dest.category}
+          </span>
         </div>
 
         {/* Distance Badge - Using distanceFromRideegama from your model */}

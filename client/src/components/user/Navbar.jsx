@@ -17,14 +17,12 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY
-      setIsScrolled(scrollTop > 50)
+    const handleScroll = (e) => {
+      setIsScrolled(e.detail.scrollTop > 50)  // uses Body's scroll position
     }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    window.addEventListener('bodyScroll', handleScroll)
+    return () => window.removeEventListener('bodyScroll', handleScroll)
+  }, []);
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500  ${

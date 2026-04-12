@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useRef } from 'react'
-import videoBg from '../assets/bg.mp4'
+import videoBg from '../../assets/bg.mp4'
 
 function Body({ children }) {
     const scrollWrapperRef = useRef(null);
@@ -13,7 +13,11 @@ function Body({ children }) {
     let timeoutId;
     const handleScroll = () => {
       wrapper.classList.add('scrolling');
-      window.clearTimeout(timeoutId);
+      // dispatch custom event for Navbar to listen to
+      window.dispatchEvent(new CustomEvent('bodyScroll', {
+        detail: { scrollTop: wrapper.scrollTop }
+      }))
+      window.clearTimeout(timeoutId)
       timeoutId = window.setTimeout(() => wrapper.classList.remove('scrolling'), 150);
     };
 

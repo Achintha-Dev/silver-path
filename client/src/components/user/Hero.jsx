@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../utils/api';
 
-function Hero() {
+function Hero({onSearch}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [destinations, setDestinations] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
-  const navigate = useNavigate();
 
-  // 1. Fetch all destinations once to enable searching
+  const navigate = useNavigate()
+
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/api/destinations');
+        const { data } = await api.get('/destinations');
         setDestinations(data.data);
       } catch (err) {
-        console.error("Search fetch error", err);
+        console.error('Search fetch error', err);
       }
-    };
-    fetchAll();
+    }
+    fetchAll()
   }, []);
 
-  // 2. Filter logic as user types
   const handleInputChange = (e) => {
-    const value = e.target.value;
-    setSearchQuery(value);
+    const value = e.target.value
+    setSearchQuery(value)
 
     if (value.length > 1) {
       const filtered = destinations.filter(dest =>
@@ -32,17 +31,25 @@ function Hero() {
       );
       setSuggestions(filtered);
     } else {
-      setSuggestions([]);
+      setSuggestions([]); // clear suggestions
     }
-  };
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // If there is a direct match or a top suggestion, go there
-    if (suggestions.length > 0) {
-      navigate(`/destinations/${suggestions[0]._id}`);
-    }
-  };
+    setSuggestions([]); // clear suggestions not setShowSuggestions
+    if (onSearch) onSearch(searchQuery);
+  }
+
+  const handleSuggestionClick = (dest) => {
+    setSuggestions([]); // clear suggestions
+    setSearchQuery(dest.name);
+    navigate(`/destinations/${dest._id}`);
+  }
+
+  const handleBlur = () => {
+    setTimeout(() => setSuggestions([]), 200);  // clear suggestions
+  }
 
   return (
     <section className="relative min-h-[580px] overflow-hidden">
@@ -62,11 +69,13 @@ function Hero() {
               className="flex flex-col gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 md:flex-row md:items-center md:p-1 shadow-2xl"
             >
               <input
+                id='text'
                 type="text"
                 placeholder="Search temples, nature spots..."
                 className="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/60 outline-none"
                 value={searchQuery}
                 onChange={handleInputChange}
+                onBlur={handleBlur}
                 autoComplete="off"
               />
               <button
@@ -84,6 +93,7 @@ function Hero() {
                   <div
                     key={dest._id}
                     onClick={() => navigate(`/destinations/${dest._id}`)}
+                    onMouseDown={() => handleSuggestionClick(dest)}
                     className="px-5 py-3 border-b border-white/5 hover:bg-white/10 cursor-pointer flex justify-between items-center group transition-all"
                   >
                     <div>
