@@ -61,7 +61,7 @@ const DestinationDetail = () => {
           const userCoords = `${position.coords.latitude},${position.coords.longitude}`;
           openDirections(userCoords);
         },
-        (error) => {
+        () => {
           // Error/Denied: Fallback to Rideegama
           console.warn("Location access denied or failed. Falling back to Rideegama.");
           openDirections(rideegamaCoords);
