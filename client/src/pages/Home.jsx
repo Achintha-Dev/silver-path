@@ -12,8 +12,7 @@ import Body from '../components/user/Body'
 
 // icons
 import { ImLeaf } from "react-icons/im";
-import { GiAncientRuins } from "react-icons/gi";
-import { FaVihara, FaUsers, FaHiking, FaMapMarkedAlt, FaCalendar, FaSearch, FaGripfire, FaRegArrowAltCircleRight } from "react-icons/fa";
+import { FaUsers, FaHiking, FaMapMarkedAlt, FaCalendar, FaSearch, FaGripfire, FaRegArrowAltCircleRight, FaPray, FaLandmark } from "react-icons/fa";
 
 const Home = () => {
   const [featured, setFeatured] = useState([]);
@@ -48,8 +47,8 @@ const Home = () => {
 
   const categories = [
     { label: 'NATURE', icon: <ImLeaf className='text-lg'/>, color: 'bg-green-500/10 text-green-400 border-green-200/20 shadow-lg' },
-    { label: 'HERITAGE', icon: <GiAncientRuins className='text-xl'/>, color: 'bg-amber-200/10 text-amber-400 border-amber-200/20 shadow-lg' },
-    { label: 'RELIGIOUS', icon: <FaVihara className='text-xl'/>, color: 'bg-purple-500/10 text-purple-400 border-purple-200/20 shadow-lg' },
+    { label: 'HERITAGE', icon: <FaLandmark className='text-xl'/>, color: 'bg-amber-200/10 text-amber-400 border-amber-200/20 shadow-lg' },
+    { label: 'RELIGIOUS', icon: <FaPray className='text-xl'/>, color: 'bg-purple-500/10 text-purple-400 border-purple-200/20 shadow-lg' },
     { label: 'CULTURAL', icon: <FaUsers className='text-xl'/>, color: 'bg-red-500/10 text-red-400 border-red-200/20 shadow-lg' },
     { label: 'RECREATIONAL', icon: <FaHiking className='text-xl'/>, color: 'bg-teal-500/10 text-teal-400 border-teal-200/20 shadow-lg' },
   ]

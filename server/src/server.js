@@ -40,12 +40,12 @@ app.use((req, res) => {
 
 // Global Error Handler 
 app.use((err, req, res, next) => {
-  console.error('Global error:', err.stack)
+  console.error('Global error:', err);
   res.status(500).json({
     success: false,
     message: err.message || 'Internal server error'
-  })
-})
+  });
+});
 
 
 connectDB().then(() => {
