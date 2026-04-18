@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 
 // public pages
 import Home from './pages/Home'
+import DestinationDetail from './pages/DestinationDetail'
 
 // admin pages
 import AdminLogin from './pages/AdminLogin'
@@ -34,6 +35,8 @@ function App() {
         <Route path="/" element={<Home />} />
 
         <Route path="/destinations" element={<div className="min-h-screen pt-16 px-4"><h1 className="text-3xl font-bold text-center">Destinations</h1><p className="text-center mt-4">Explore amazing destinations coming soon...</p></div>} />
+
+        <Route path="/destinations/:id" element={<DestinationDetail />} />
 
         {/* Dynamic route using :id */}
         {/* <Route path="/destinations/:id" element={<DestinationDetail />} /> */}
