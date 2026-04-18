@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import { FaPlus, FaEdit, FaTrash, FaSearch, FaMapMarkerAlt } from 'react-icons/fa'
 import Swal from 'sweetalert2'
 import toast from 'react-hot-toast'
-import AdminLayout from '../components/admin/AdminLayout'
-import api from '../utils/api'
-import ActionButtons from '../components/admin/ActionButtons'
+import AdminLayout from '../../components/admin/AdminLayout'
+import api from '../../utils/api'
+import ActionButtons from '../../components/admin/ActionButtons'
 
 const DestinationsList = () => {
   const [destinations, setDestinations] = useState([]);

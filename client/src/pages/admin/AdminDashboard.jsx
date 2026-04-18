@@ -5,9 +5,9 @@ import { HiOutlineSparkles } from 'react-icons/hi'
 import { FaEdit } from 'react-icons/fa'
 import { FaMapMarkerAlt, FaPlus, FaLeaf, FaLandmark, FaPray, FaUsers, FaHiking, FaWalking, FaTrash } from 'react-icons/fa'
 
-import AdminLayout from '../components/admin/AdminLayout'
-import api from '../utils/api'
-import DestinationsTable from '../components/admin/DestinationsTable'
+import AdminLayout from '../../components/admin/AdminLayout'
+import api from '../../utils/api'
+import DestinationsTable from '../../components/admin/DestinationsTable'
 
 const StatCard = ({ label, value, icon, color }) => (
   <div className={`bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex items-center gap-4`}>

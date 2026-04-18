@@ -3,14 +3,14 @@ import { Toaster } from 'react-hot-toast'
 
 // public pages
 import Home from './pages/Home'
-import DestinationDetail from './pages/DestinationDetail'
+import DestinationDetail from './pages/admin/DestinationDetail'
 
 // admin pages
-import AdminLogin from './pages/AdminLogin'
-import AdminDashboard from './pages/AdminDashboard'
-import DestinationsList from './pages/DestinationsList'
-import AddDestination from './pages/AddDestination'
-import EditDestination from './pages/EditDestination'
+import AdminLogin from './pages/admin/AdminLogin'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import DestinationsList from './pages/admin/DestinationsList'
+import AddDestination from './pages/admin/AddDestination'
+import EditDestination from './pages/admin/EditDestination'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 
 function App() {

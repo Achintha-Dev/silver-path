@@ -1,91 +1,184 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { FaUpload, FaTimes, FaMapMarkerAlt } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { FaUpload, FaTimes, FaMapMarkerAlt, FaTrash } from 'react-icons/fa'
 import toast from 'react-hot-toast'
-
-import AdminLayout from '../components/admin/AdminLayout'
-import api from '../utils/api'
-import GlassySelect from '../components/admin/GlassySelect'
+import Swal from 'sweetalert2'
+import AdminLayout from '../../components/admin/AdminLayout'
+import api from '../../utils/api'
+import GlassySelect from '../../components/admin/GlassySelect'
 
 const CATEGORIES = ['Religious', 'Nature', 'Heritage', 'Cultural', 'Recreational']
 
-const AddDestination = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [images, setImages] = useState([]);
-  const [previews, setPreviews] = useState([]);
+const EditDestination = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [existingImages, setExistingImages] = useState([]) // from DB
+  const [newImages, setNewImages] = useState([])           // newly selected files
+  const [newPreviews, setNewPreviews] = useState([])       // previews for new files
   const [formData, setFormData] = useState({
     name: '', category: '', description: '', address: '',
     lat: '', lng: '', openingHours: '', entryFee: 'Free',
     facilities: '', travelTips: '', distanceFromRideegama: ''
-  });
+  })
+
+  // Fetch existing destination data
+  useEffect(() => {
+    const fetchDestination = async () => {
+      try {
+        const res = await api.get(`/destinations/${id}`)
+        const dest = res.data.data
+
+        setFormData({
+          name: dest.name || '',
+          category: dest.category || '',
+          description: dest.description || '',
+          address: dest.address || '',
+          lat: dest.location?.lat || '',
+          lng: dest.location?.lng || '',
+          openingHours: dest.openingHours || '',
+          entryFee: dest.entryFee || 'Free',
+          facilities: dest.facilities || '',
+          travelTips: dest.travelTips || '',
+          distanceFromRideegama: dest.distanceFromRideegama || ''
+        })
+
+        setExistingImages(dest.images || [])
+
+      } catch (error) {
+        toast.error('Failed to load destination: ' + (error.response?.data?.message || error.message))
+        navigate('/admin/destinations')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchDestination()
+  }, [id, navigate])
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  // Handle new image selection
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files)
+    const totalImages = existingImages.length + newImages.length + files.length
 
-    if (files.length + images.length > 20) {
-      toast.error('Maximum 20 images allowed');
+    if (totalImages > 20) {
+      toast.error('Maximum 20 images allowed per destination')
       return
     }
 
-    setImages(prev => [...prev, ...files]);
+    setNewImages(prev => [...prev, ...files])
 
-    // Generate previews
     files.forEach(file => {
       const reader = new FileReader()
       reader.onloadend = () => {
-        setPreviews(prev => [...prev, reader.result]);
+        setNewPreviews(prev => [...prev, reader.result])
       }
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file)
     })
   }
 
-  const removeImage = (index) => {
-    setImages(prev => prev.filter((_, i) => i !== index));
-    setPreviews(prev => prev.filter((_, i) => i !== index));
+  // Remove a newly selected image (not yet uploaded)
+  const removeNewImage = (index) => {
+    setNewImages(prev => prev.filter((_, i) => i !== index))
+    setNewPreviews(prev => prev.filter((_, i) => i !== index))
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Delete an existing image from Cloudinary + DB
+  const handleDeleteExistingImage = async (publicId, index) => {
+    const totalAfterDelete = existingImages.length + newImages.length - 1
 
-    if (images.length < 5) {
-      toast.error('Please upload at least 5 images');
+    if (totalAfterDelete < 5) {
+      toast.error('Cannot delete — minimum 5 images required')
       return
     }
 
-    setLoading(true);
+    const result = await Swal.fire({
+      title: 'Delete this image?',
+      text: 'This will permanently remove it from Cloudinary.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it',
+      cancelButtonText: 'Cancel',
+      background: '#1a1a2e',
+      color: '#fff',
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#ffffff20',
+    })
+
+    if (!result.isConfirmed) return
 
     try {
-      const data = new FormData();
+      await api.delete(
+        `/destinations/${id}/images/${encodeURIComponent(publicId)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('adminToken')}`
+          }
+        }
+      )
+      setExistingImages(prev => prev.filter((_, i) => i !== index))
+      toast.success('Image deleted successfully')
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to delete image')
+    }
+  }
+
+  // Submit form
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const totalImages = existingImages.length + newImages.length
+    if (totalImages < 5) {
+      toast.error('Minimum 5 images required')
+      return
+    }
+
+    setSaving(true)
+
+    try {
+      const data = new FormData()
+
+      // Append all text fields
       Object.entries(formData).forEach(([key, value]) => {
         data.append(key, value)
       })
-      images.forEach(img => data.append('images', img));
 
-      await api.post('/destinations', data, {
+      // Append new image files if any
+      newImages.forEach(img => data.append('images', img))
+
+      await api.put(`/destinations/${id}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
           'Content-Type': 'multipart/form-data'
         }
-      });
+      })
 
-      toast.success('Destination created successfully!');
-      navigate('/admin/destinations');
+      toast.success('Destination updated successfully!')
+      navigate('/admin/destinations')
 
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to create destination');
-      console.error(error.response?.data);
+      toast.error(error.response?.data?.message || 'Failed to update destination')
     } finally {
-      setLoading(false);
+      setSaving(false)
     }
   }
 
   const inputClass = "w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/30 outline-none focus:border-white/40 focus:bg-white/15 transition-all"
   const labelClass = "text-white/60 text-xs uppercase tracking-widest mb-2 block"
+
+  if (loading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="w-10 h-10 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+        </div>
+      </AdminLayout>
+    )
+  }
 
   return (
     <AdminLayout>
@@ -94,10 +187,10 @@ const AddDestination = () => {
         {/* Header */}
         <div>
           <h2 className="text-white font-black text-2xl uppercase tracking-tight font-['Montserrat']">
-            Add Destination
+            Edit Destination
           </h2>
           <p className="text-white/40 text-sm mt-1">
-            Create a new place of interest
+            Updating: <span className="text-white/70 font-medium">{formData.name}</span>
           </p>
         </div>
 
@@ -115,7 +208,6 @@ const AddDestination = () => {
                 <input
                   name="name"
                   type="text"
-                  placeholder="e.g. Ridi Viharaya"
                   className={inputClass}
                   value={formData.name}
                   onChange={handleChange}
@@ -137,7 +229,6 @@ const AddDestination = () => {
               <label className={labelClass}>Description *</label>
               <textarea
                 name="description"
-                placeholder="Describe this destination..."
                 rows={4}
                 className={inputClass}
                 value={formData.description}
@@ -151,7 +242,6 @@ const AddDestination = () => {
               <input
                 name="address"
                 type="text"
-                placeholder="e.g. Rideegama, Kurunegala"
                 className={inputClass}
                 value={formData.address}
                 onChange={handleChange}
@@ -173,7 +263,6 @@ const AddDestination = () => {
                   name="lat"
                   type="number"
                   step="any"
-                  placeholder="e.g. 7.52"
                   className={inputClass}
                   value={formData.lat}
                   onChange={handleChange}
@@ -186,7 +275,6 @@ const AddDestination = () => {
                   name="lng"
                   type="number"
                   step="any"
-                  placeholder="e.g. 80.52"
                   className={inputClass}
                   value={formData.lng}
                   onChange={handleChange}
@@ -199,7 +287,6 @@ const AddDestination = () => {
                   name="distanceFromRideegama"
                   type="number"
                   step="any"
-                  placeholder="e.g. 9"
                   className={inputClass}
                   value={formData.distanceFromRideegama}
                   onChange={handleChange}
@@ -208,7 +295,6 @@ const AddDestination = () => {
               </div>
             </div>
 
-            {/* Google Maps tip */}
             <p className="text-white/30 text-xs flex items-center gap-2">
               <FaMapMarkerAlt className="text-green-400" />
               Get coordinates from Google Maps — right click on location → copy lat/lng
@@ -227,7 +313,6 @@ const AddDestination = () => {
                 <input
                   name="openingHours"
                   type="text"
-                  placeholder="e.g. 6:00 AM - 6:00 PM"
                   className={inputClass}
                   value={formData.openingHours}
                   onChange={handleChange}
@@ -239,7 +324,6 @@ const AddDestination = () => {
                 <input
                   name="entryFee"
                   type="text"
-                  placeholder="e.g. Free or LKR 500"
                   className={inputClass}
                   value={formData.entryFee}
                   onChange={handleChange}
@@ -252,7 +336,6 @@ const AddDestination = () => {
               <input
                 name="facilities"
                 type="text"
-                placeholder="e.g. Parking, Restrooms, Food Stalls"
                 className={inputClass}
                 value={formData.facilities}
                 onChange={handleChange}
@@ -263,7 +346,6 @@ const AddDestination = () => {
               <label className={labelClass}>Travel Tips</label>
               <textarea
                 name="travelTips"
-                placeholder="Any useful tips for visitors..."
                 rows={3}
                 className={inputClass}
                 value={formData.travelTips}
@@ -272,20 +354,80 @@ const AddDestination = () => {
             </div>
           </div>
 
-          {/* Image Upload */}
+          {/* Image Management */}
           <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4">
             <h3 className="text-white font-bold uppercase tracking-wider text-sm border-b border-white/10 pb-3">
               Images
               <span className="text-white/40 font-normal ml-2 normal-case text-xs">
-                (minimum 5 required, max 20)
+                ({existingImages.length + newImages.length} total — minimum 5)
               </span>
             </h3>
 
+            {/* Existing Images */}
+            {existingImages.length > 0 && (
+              <div>
+                <p className={labelClass}>Current Images</p>
+                <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
+                  {existingImages.map((img, i) => (
+                    <div key={img.public_id} className="relative group">
+                      <img
+                        src={img.url}
+                        alt={`Image ${i + 1}`}
+                        className="w-full h-24 object-cover rounded-xl border border-white/10"
+                      />
+                      {/* Delete button */}
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteExistingImage(img.public_id, i)}
+                        className="absolute top-1 right-1 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                        title="Delete image"
+                      >
+                        <FaTrash className="text-white text-[10px]" />
+                      </button>
+                      {/* Image number */}
+                      <div className="absolute bottom-1 left-1 bg-black/60 rounded px-1.5 py-0.5">
+                        <span className="text-white text-[9px] font-bold">{i + 1}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* New Image Previews */}
+            {newPreviews.length > 0 && (
+              <div>
+                <p className={labelClass}>New Images (not saved yet)</p>
+                <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
+                  {newPreviews.map((preview, i) => (
+                    <div key={i} className="relative group">
+                      <img
+                        src={preview}
+                        alt={`New ${i + 1}`}
+                        className="w-full h-24 object-cover rounded-xl border border-blue-400/30"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeNewImage(i)}
+                        className="absolute top-1 right-1 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <FaTimes className="text-white text-[10px]" />
+                      </button>
+                      {/* New badge */}
+                      <div className="absolute bottom-1 left-1 bg-blue-500/80 rounded px-1.5 py-0.5">
+                        <span className="text-white text-[9px] font-bold">NEW</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Upload Area */}
-            <label className="flex flex-col items-center justify-center border-2 border-dashed border-white/20 rounded-2xl p-8 cursor-pointer hover:border-white/40 hover:bg-white/5 transition-all">
-              <FaUpload className="text-white/30 text-3xl mb-3" />
+            <label className="flex flex-col items-center justify-center border-2 border-dashed border-white/20 rounded-2xl p-6 cursor-pointer hover:border-white/40 hover:bg-white/5 transition-all">
+              <FaUpload className="text-white/30 text-2xl mb-2" />
               <p className="text-white/60 text-sm font-medium">
-                Click to upload images
+                Add more images
               </p>
               <p className="text-white/30 text-xs mt-1">
                 JPG, PNG, JPEG up to 5MB each
@@ -299,36 +441,11 @@ const AddDestination = () => {
               />
             </label>
 
-            {/* Image count indicator */}
-            {images.length > 0 && (
-              <div className="flex items-center gap-2">
-                <div className={`text-xs font-bold ${images.length >= 5 ? 'text-green-400' : 'text-amber-400'}`}>
-                  {images.length} / 5 minimum
-                  {images.length >= 5 ? ' ✓' : ` (need ${5 - images.length} more)`}
-                </div>
-              </div>
-            )}
-
-            {/* Image Previews */}
-            {previews.length > 0 && (
-              <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
-                {previews.map((preview, i) => (
-                  <div key={i} className="relative group">
-                    <img
-                      src={preview}
-                      alt={`Preview ${i + 1}`}
-                      className="w-full h-24 object-cover rounded-xl border border-white/10"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeImage(i)}
-                      className="absolute top-1 right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <FaTimes className="text-white text-[10px]" />
-                    </button>
-                  </div>
-                ))}
-              </div>
+            {/* Image count warning */}
+            {existingImages.length + newImages.length < 5 && (
+              <p className="text-amber-400 text-xs flex items-center gap-2">
+                ⚠️ Need {5 - (existingImages.length + newImages.length)} more image(s) to meet minimum requirement
+              </p>
             )}
           </div>
 
@@ -336,20 +453,20 @@ const AddDestination = () => {
           <div className="flex flex-col md:flex-row gap-4">
             <button
               type="submit"
-              disabled={loading}
+              disabled={saving}
               className="flex-1 bg-white/20 hover:bg-white/30 backdrop-blur-lg border border-white/20 text-white font-black uppercase tracking-widest py-4 rounded-xl transition-all hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
-              {loading ? (
+              {saving ? (
                 <span className="flex items-center justify-center gap-2">
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Creating...
+                  Saving changes...
                 </span>
-              ) : 'Create Destination'}
+              ) : 'Save Changes'}
             </button>
             <button
               type="button"
               onClick={() => navigate('/admin/destinations')}
-              className="px-8 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-bold uppercase tracking-wider rounded-xl transition-all text-sm"
+              className="md:px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white font-bold uppercase tracking-wider rounded-xl transition-all text-sm"
             >
               Cancel
             </button>
@@ -360,4 +477,4 @@ const AddDestination = () => {
   )
 }
 
-export default AddDestination
+export default EditDestination

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { FaGripfire, FaEye, FaEyeSlash } from 'react-icons/fa'
 import toast from 'react-hot-toast'
-import api from '../utils/api'
-import videoBg from '../assets/bg.mp4'
+import api from '../../utils/api'
+import videoBg from '../../assets/bg.mp4'
 
 const AdminLogin = () => {
   const [searchParams] = useSearchParams()
