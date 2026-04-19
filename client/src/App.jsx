@@ -13,6 +13,7 @@ import DestinationsList from './pages/admin/DestinationsList'
 import AddDestination from './pages/admin/AddDestination'
 import EditDestination from './pages/admin/EditDestination'
 import ProtectedRoute from './components/admin/ProtectedRoute'
+import MapPage from './pages/user/MapPage'
 
 function App() {
 
@@ -39,6 +40,8 @@ function App() {
 
         <Route path="/destinations" element={<AllDestinations/>}/>
 
+        <Route path="/map" element={<MapPage/>}/>
+
         <Route path="/planner" element={<div className="min-h-screen pt-16 px-4"><h1 className="text-3xl font-bold text-center">Plan Your Visit</h1><p className="text-center mt-4">Trip planning tools coming soon...</p></div>} />
 
         <Route path="/experiences" element={<div className="min-h-screen pt-16 px-4"><h1 className="text-3xl font-bold text-center">Experiences</h1><p className="text-center mt-4">Discover unique experiences coming soon...</p></div>} />
@@ -49,15 +52,19 @@ function App() {
 
          {/* Admin routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
+
         <Route path="/admin/dashboard" element={
           <ProtectedRoute><AdminDashboard /></ProtectedRoute>
         } />
+
         <Route path="/admin/destinations" element={
           <ProtectedRoute><DestinationsList /></ProtectedRoute>
         } />
+
         <Route path="/admin/destinations/add" element={
           <ProtectedRoute><AddDestination /></ProtectedRoute>
         } />
+        
         <Route path="/admin/destinations/edit/:id" element={
           <ProtectedRoute><EditDestination /></ProtectedRoute>
         } />
