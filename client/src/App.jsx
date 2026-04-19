@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast'
 // public pages
 import Home from './pages/Home'
 import DestinationDetail from './pages/admin/DestinationDetail'
+import AllDestinations from './pages/user/AllDestinations'
 
 // admin pages
 import AdminLogin from './pages/admin/AdminLogin'
@@ -34,18 +35,17 @@ function App() {
         {/* public routes */}
         <Route path="/" element={<Home />} />
 
-        <Route path="/destinations" element={<div className="min-h-screen pt-16 px-4"><h1 className="text-3xl font-bold text-center">Destinations</h1><p className="text-center mt-4">Explore amazing destinations coming soon...</p></div>} />
-
         <Route path="/destinations/:id" element={<DestinationDetail />} />
 
-        {/* Dynamic route using :id */}
-        {/* <Route path="/destinations/:id" element={<DestinationDetail />} /> */}
+        <Route path="/destinations" element={<AllDestinations/>}/>
 
         <Route path="/planner" element={<div className="min-h-screen pt-16 px-4"><h1 className="text-3xl font-bold text-center">Plan Your Visit</h1><p className="text-center mt-4">Trip planning tools coming soon...</p></div>} />
 
         <Route path="/experiences" element={<div className="min-h-screen pt-16 px-4"><h1 className="text-3xl font-bold text-center">Experiences</h1><p className="text-center mt-4">Discover unique experiences coming soon...</p></div>} />
         
         <Route path="/about" element={<h1>About</h1>} />
+
+
 
          {/* Admin routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
@@ -61,6 +61,8 @@ function App() {
         <Route path="/admin/destinations/edit/:id" element={
           <ProtectedRoute><EditDestination /></ProtectedRoute>
         } />
+
+
 
         {/* 404 */}
         {/* <Route path="*" element={<ComingSoon title="404 — Page Not Found" />} /> */}
