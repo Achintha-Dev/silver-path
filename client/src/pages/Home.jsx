@@ -45,14 +45,6 @@ const Home = () => {
     }
   }
 
-  const categories = [
-    { label: 'NATURE', icon: <ImLeaf className='text-lg'/>, color: 'bg-green-500/10 text-green-400 border-green-200/20 shadow-lg' },
-    { label: 'HERITAGE', icon: <FaLandmark className='text-xl'/>, color: 'bg-amber-200/10 text-amber-400 border-amber-200/20 shadow-lg' },
-    { label: 'RELIGIOUS', icon: <FaPray className='text-xl'/>, color: 'bg-purple-500/10 text-purple-400 border-purple-200/20 shadow-lg' },
-    { label: 'CULTURAL', icon: <FaUsers className='text-xl'/>, color: 'bg-red-500/10 text-red-400 border-red-200/20 shadow-lg' },
-    { label: 'RECREATIONAL', icon: <FaHiking className='text-xl'/>, color: 'bg-teal-500/10 text-teal-400 border-teal-200/20 shadow-lg' },
-  ]
-
   const features = [
     {
       icon: <FaMapMarkedAlt className='text-green-700'/>,
@@ -84,24 +76,8 @@ const Home = () => {
       <Navbar />
       <Hero onSearch={handleHeroSearch} />
 
-      {/* ── Category Pills ── */}
-      <section className="mx-auto md:-mt-12 sm:mt-10 mb-14 max-w-5xl rounded-full bg-white/5 backdrop-blur-lg border border-white/10 p-2 shadow-2xl">
-        <div className="px-6 py-4 flex flex-wrap gap-3 justify-center">
-          {categories.map((cat) => (
-            <Link
-              key={cat.label}
-              to={`/destinations?category=${cat.label}`}
-              className={`flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-black uppercase tracking-wider border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${cat.color} backdrop-blur-sm`}
-            >
-              <span style={{ fontSize: '16px' }}>{cat.icon}</span>
-              {cat.label}
-            </Link>
-          ))}
-        </div>
-      </section>
-
       {/* ── Featured Destinations ── */}
-      <section className="max-w-7xl mx-auto px-10 mb-20 py-5 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl">
+      <section className="max-w-7xl mx-auto px-10 mb-20 py-5 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl -mt-20">
         <div className="flex items-baseline justify-between mb-5 pb-3 border-b border-white/10">
           <div>
             <h2 className="text-3xl font-black font-['Montserrat'] text-white uppercase tracking-tighter">
@@ -212,7 +188,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── CTA Banner ── */}
+      {/* CTA Banner */}
       <section 
         className="relative mx-12 mb-20 rounded-3xl py-24 px-10 text-center overflow-hidden border border-white/10 shadow-2xl"
       >
@@ -223,7 +199,7 @@ const Home = () => {
           <h2 className="text-4xl font-black font-['Montserrat'] text-white mb-4 uppercase tracking-tighter">
             Ready to plan your perfect day?
           </h2>
-          <p className="text-white/80 text-md mb-10 max-w-xl mx-auto font-medium">
+          <p className="text-white/80 text-md mb-10 max-w-xl mx-auto font-medium text-justify md:text-center">
             Explore 10+ iconic destinations within a 25 km radius of Rideegama, Kurunegala. Curated routes, easy maps.
           </p>
           
