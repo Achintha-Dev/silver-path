@@ -46,7 +46,7 @@ function Body({ children }) {
             </video>
     
             {/* Overlay */}
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-[3px]" />
           </div>
         </div>
 

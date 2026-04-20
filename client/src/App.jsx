@@ -14,6 +14,7 @@ import AddDestination from './pages/admin/AddDestination'
 import EditDestination from './pages/admin/EditDestination'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import MapPage from './pages/user/MapPage'
+import PlannerPage from './pages/user/PlannerPage'
 
 function App() {
 
@@ -42,9 +43,7 @@ function App() {
 
         <Route path="/map" element={<MapPage/>}/>
 
-        <Route path="/planner" element={<div className="min-h-screen pt-16 px-4"><h1 className="text-3xl font-bold text-center">Plan Your Visit</h1><p className="text-center mt-4">Trip planning tools coming soon...</p></div>} />
-
-        <Route path="/experiences" element={<div className="min-h-screen pt-16 px-4"><h1 className="text-3xl font-bold text-center">Experiences</h1><p className="text-center mt-4">Discover unique experiences coming soon...</p></div>} />
+        <Route path="/planner" element={<PlannerPage/>} />
         
         <Route path="/about" element={<h1>About</h1>} />
 
