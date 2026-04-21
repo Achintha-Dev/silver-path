@@ -97,11 +97,11 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation - Glassmorphism style */}
+        {/* Mobile Navigation */}
         {menuOpen && (
           <div className={`md:hidden mt-2 rounded-2xl border transition-all duration-300 overflow-hidden ${
             isScrolled
-              ? 'bg-black/60 backdrop-blur-xl border-white/10'
+              ? 'bg-black/40 backdrop-blur-xl border-white/10'
               : 'bg-white/10 backdrop-blur-md border-white/20 shadow-2xl'
           }`}>
             <div className="px-4 py-6 space-y-2">
