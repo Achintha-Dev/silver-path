@@ -17,7 +17,12 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        const status = error.response?.status
+        const isLoginRoute = error.config?.url?.includes('/auth/login');
+        const isVerifyRoute = error.config?.url?.includes('/auth/verify-access');
+        const hasToken = !!localStorage.getItem('adminToken');
+        
+        if (status === 401 && !isLoginRoute && !isVerifyRoute && hasToken) {
             localStorage.removeItem("adminToken");
             localStorage.removeItem("adminInfo");
             window.location.href = "/";

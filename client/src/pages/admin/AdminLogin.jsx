@@ -6,13 +6,14 @@ import api from '../../utils/api'
 import videoBg from '../../assets/bg.mp4'
 
 const AdminLogin = () => {
-  const [searchParams] = useSearchParams()
-  const [accessGranted, setAccessGranted] = useState(false)
-  const [formData, setFormData] = useState({ email: '', password: '' })
-  const [loading, setLoading] = useState(false)
-  const [verifying, setVerifying] = useState(true)
-  const [showPassword, setShowPassword] = useState(false)
-  const navigate = useNavigate()
+  const [searchParams] = useSearchParams();
+  const [accessGranted, setAccessGranted] = useState(false);
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [verifying, setVerifying] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const secretKey = searchParams.get('key')
 
@@ -20,39 +21,50 @@ const AdminLogin = () => {
   useEffect(() => {
     const verifyKey = async () => {
       if (!secretKey) {
-        navigate('/')
+        navigate('/');
         return
       }
       try {
-        await api.get('/auth/verify-access', {
+        const response =  await fetch('/auth/verify-access', {
           headers: { 'x-admin-key': secretKey }
-        })
-        setAccessGranted(true)
+        });
+
+        if (response.ok) {
+          setAccessGranted(true);
+        } else {
+          navigate('/');
+        }
+
       } catch {
-        navigate('/')
+        navigate('/');
       } finally {
-        setVerifying(false)
+        setVerifying(false);
       }
     }
-    verifyKey()
-  }, [secretKey, navigate])
+    verifyKey();
+  }, [secretKey, navigate]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setError(''); // clear previous errors
+    setLoading(true);
     try {
       const res = await api.post('/auth/login',
         { email: formData.email, password: formData.password },
         { headers: { 'x-admin-key': secretKey } }
       )
-      localStorage.setItem('adminToken', res.data.token)
-      localStorage.setItem('adminInfo', JSON.stringify(res.data.admin))
-      toast.success(`Welcome back, ${res.data.admin.name}!`)
-      navigate('/admin/dashboard')
+      localStorage.setItem('adminToken', res.data.token);
+      localStorage.setItem('adminInfo', JSON.stringify(res.data.admin));
+      toast.success(`Welcome back, ${res.data.admin.name}!`);
+      navigate('/admin/dashboard');
+
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed')
+      const message = error.response?.data?.message || 'Login failed. Please try again.'
+      toast.error(message);
+      setError(message);
+      
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -86,32 +98,59 @@ const AdminLogin = () => {
             Sign In
           </h2>
 
+          {/* Inline error message */}
+          {error && (
+            <div className="mb-4 px-4 py-3 bg-red-500/10 border border-red-400/20 rounded-xl">
+              <p className="text-red-300 text-xs font-medium">
+                ⚠️ {error}
+              </p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">
+              <label htmlFor='email' className="text-white/60 text-xs uppercase tracking-widest mb-2 block">
                 Email
               </label>
               <input
+                id='email'
                 type="email"
+                autoComplete='email'
                 placeholder="admin@silverpath.com"
-                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/30 outline-none focus:border-blue-400/50 focus:bg-white/15 transition-all"
+                className={`w-full bg-white/10 border rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/30 outline-none transition-all ${
+                  error
+                    ? 'border-red-400/50 focus:border-red-400'
+                    : 'border-white/20 focus:border-blue-400/50 focus:bg-white/15'
+                }`}
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, email: e.target.value })
+                  setError('') // clear error when user types
+                }}
                 required
               />
             </div>
 
             <div>
-              <label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">
+              <label htmlFor='password' className="text-white/60 text-xs uppercase tracking-widest mb-2 block">
                 Password
               </label>
               <div className="relative">
                 <input
+                  id='password'
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
-                  className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/30 outline-none focus:border-blue-400/50 focus:bg-white/15 transition-all pr-12"
+                  autoComplete='current-password'
+                  className={`w-full bg-white/10 border rounded-xl px-4 py-3 text-white text-sm placeholder:text-white/30 outline-none transition-all pr-12 ${
+                    error
+                      ? 'border-red-400/50 focus:border-red-400'
+                      : 'border-white/20 focus:border-blue-400/50 focus:bg-white/15'
+                  }`}
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) => {
+                    setFormData({ ...formData, password: e.target.value })
+                    setError('') // clear error when user types
+                  }}
                   required
                 />
                 <button
