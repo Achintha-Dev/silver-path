@@ -60,7 +60,7 @@ function Hero({onSearch}) {
           </p>
 
           <h1 className="font-['Montserrat'] text-3xl font-black bg-gradient-to-br from-white/80 via-white/20 to-white/70 bg-clip-text text-transparent uppercase md:text-6xl mb-4">
-            Discover the hidden gems of Rideegama
+           <span className='font-heading font-black tracking-[0.3em] text-white/10 mb-2 md:text-6xl text-4xl'>Welcome</span> <br /> <span className="font-serif text-white/50 text-2xl md:text-5xl uppercase tracking-tight">Your Local Day-Trip Guide </span>
           </h1>
 
           <div className="relative max-w-2xl mx-auto mb-8">

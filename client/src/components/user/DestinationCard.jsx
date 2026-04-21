@@ -46,14 +46,7 @@ const DestinationCard = ({ dest }) => {
             {dest.category}
           </span>
         </div>
-
-        {/* Distance Badge - Using distanceFromRideegama from your model */}
-        <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
-          <span className="text-white text-[11px] font-bold flex items-center gap-1">
-            <FaMapMarkerAlt className="text-green-400" />
-            {dest.distanceFromRideegama} km away
-          </span>
-        </div>
+        
       </div>
 
       {/* Content Area */}
