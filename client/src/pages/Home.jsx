@@ -119,7 +119,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-black font-['Montserrat'] uppercase text-white tracking-tighter">
-              Why use Silver Path?
+              Why use <span className="text-green-500">Silver Path</span>?
             </h2>
             <p className="text-white/60 text-sm mt-2 max-w-sm mx-auto">
               Everything you need for a perfect day trip
@@ -211,17 +211,18 @@ const Home = () => {
           <div className="flex flex-wrap justify-center gap-5">
             <Link
               to="/destinations"
-              className="btn bg-white/20 backdrop-blur-lg hover:bg-white/30 text-black font-black uppercase tracking-tight md:tracking-wider px-6 py-3.5 md:px-10 md:py-3.5 rounded-xl text-[10px] md:text-xs transition-all transform hover:scale-105 hover:shadow-2xl"
+              className="btn bg-white/20 backdrop-blur-lg hover:bg-white/30 text-white font-black uppercase tracking-tight md:tracking-wider px-6 py-3.5 md:px-10 md:py-3.5 rounded-xl text-[10px] md:text-xs transition-all transform hover:scale-105 hover:shadow-2xl hover:text-green-500"
             >
               Browse destinations
             </Link>
             <Link
               to="/map"
-              className="btn bg-white/5 backdrop-blur-lg hover:bg-white/30 text-white font-black uppercase tracking-wider px-10 py-3.5 rounded-xl text-xs transition-all transform hover:scale-105 hover:shadow-2xl"
+              className="btn bg-white/5 backdrop-blur-lg text-white font-black uppercase tracking-wider px-10 py-3.5 rounded-xl text-xs transition-all transform hover:scale-105 hover:shadow-2xl hover:bg-green-500/10"
             >
               View on map
             </Link>
           </div>
+          
         </div>
       </section>
       

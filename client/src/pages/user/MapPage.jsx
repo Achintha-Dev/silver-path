@@ -130,8 +130,8 @@ const MapPage = () => {
               </div>
 
               {/* Search Bar - Desktop */}
-              <div className="hidden lg:flex flex-1 max-w-md">
-                <div className="relative w-full">
+              <div className="hidden lg:flex flex-1 max-w-md justify-center">
+                <div className="relative w-full mx-auto">
                   <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 text-sm" />
                   <input
                     type="text"
@@ -152,7 +152,7 @@ const MapPage = () => {
               </div>
 
               {/* Desktop Controls */}
-              <div className="hidden lg:flex items-center gap-3">
+              <div className="hidden lg:flex items-center gap-3" title={sidebarOpen ? 'Hide Destination List' : 'Show Destination List'}>
                 <button
                   onClick={() => setSidebarOpen(!sidebarOpen)}
                   className="flex items-center gap-3 px-6 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white transition-all duration-200 font-medium"

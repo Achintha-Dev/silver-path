@@ -11,11 +11,19 @@ function Footer() {
             <div className="flex flex-col items-center md:items-start">
                 <div className="flex items-center gap-3">
                     <div className="h-px w-6 bg-white/30 hidden sm:block"></div> 
-                    <p className="text-white font-black font-['Montserrat'] tracking-[0.2em] text-2xl flex items-center gap-2">
-                        SILVER 
-                        <FaGripfire className="w-5 h-7 text-blue-400 drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" />
-                        PATH
-                    </p>
+                        
+                        <p className="font-black font-['Montserrat'] tracking-[0.2em] text-2xl flex items-center gap-2">
+                            <span className="bg-gradient-to-b from-white to-white/30 bg-clip-text text-transparent drop-shadow-sm">
+                                SILVER
+                            </span>
+                            
+                            <FaGripfire className="w-5 h-7 text-blue-400 drop-shadow-[0_0_12px_rgba(96,165,250,0.8)]" />
+                            
+                            <span className="bg-gradient-to-b from-green-400/80 to-green-900/40 bg-clip-text text-transparent drop-shadow-sm">
+                                PATH
+                            </span>
+                        </p>
+                        
                     <div className="h-px w-6 bg-white/30 hidden sm:block"></div>
                 </div>
                 <p className="text-white/50 text-[10px] uppercase tracking-widest mt-3 text-center md:text-left">

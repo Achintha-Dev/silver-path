@@ -35,21 +35,29 @@ const Navbar = () => {
 
           {/* Brand - Montserrat added for the "Silver Path" look */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-1 group">
-              <FaGripfire className={`text-4xl transition-all duration-300 ${
-                isScrolled ? 'text-blue-400 drop-shadow-glow' : 'text-white'
+            <Link to="/" className="flex items-center space-x-2 group">
+              {/* Icon with Glass Glow */}
+              <FaGripfire className={`text-4xl transition-all duration-500 transform group-hover:scale-110 ${
+                isScrolled 
+                  ? 'text-blue-400 drop-shadow-[0_0_10px_rgba(96,165,250,0.8)]' 
+                  : 'text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]'
               }`} />
               
               <div className="flex flex-col">
-                <span className={`text-xl font-black tracking-[0.2em] font-['Montserrat'] transition-all duration-300 ${
+                {/* Main Glass Text */}
+                <span className={`text-xl font-black tracking-[0.2em] font-['Montserrat'] transition-all duration-500 ${
                   isScrolled 
-                    ? 'text-white drop-shadow-md ' 
-                    : 'bg-gradient-to-br from-white via-white/80 to-white/40 bg-clip-text text-transparent'
+                    ? 'text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]' 
+                    : 'bg-gradient-to-b from-white via-white/90 to-white/20 bg-clip-text text-transparent filter drop-shadow-sm'
                 }`}>
-                  SILVER PATH
+                  SILVER <span className={isScrolled ? 'text-green-400' : 'text-green-400/60'}>PATH</span>
                 </span>
-                <span className={`text-[10px] uppercase tracking-widest font-medium transition-colors duration-300 ${
-                  isScrolled ? 'text-white/70' : 'text-white/80'
+
+                {/* Subtitle with Glass Transparency */}
+                <span className={`text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 ${
+                  isScrolled 
+                    ? 'text-white/70' 
+                    : 'text-white/40 bg-white/5 backdrop-blur-sm px-1 rounded-lg border border-white/5'
                 }`}>
                   Local Day-Visit Planner
                 </span>
@@ -66,11 +74,11 @@ const Navbar = () => {
                 className={`text-xs font-bold transition-all duration-300 uppercase tracking-widest ${
                   isScrolled
                     ? isActive(link.to)
-                      ? 'text-blue-300 border-b-2 border-blue-300/50 pb-1'
-                      : 'text-white/80 hover:text-white'
+                      ? 'text-green-300 border-b-2 border-green-300/50 pb-1'
+                      : 'text-white/80 hover:text-green-500'
                     : isActive(link.to)
                       ? 'text-white border-b-2 border-white pb-1'
-                      : 'text-white/70 hover:text-white'
+                      : 'text-white/70 hover:text-green-500'
                 }`}
               >
                 {link.label}
@@ -80,7 +88,7 @@ const Navbar = () => {
 
           {/* Mobile menu button */}
           <button
-            className={`md:hidden p-2 rounded-xl transition-all duration-300 ${
+            className={` md:hidden p-2 rounded-xl transition-all duration-300 ${
               isScrolled
                 ? 'bg-white/10 text-white hover:bg-white/20'
                 : 'text-white hover:bg-white/10'
@@ -112,7 +120,7 @@ const Navbar = () => {
                   onClick={() => setMenuOpen(false)}
                   className={`block px-4 py-3 text-sm font-bold uppercase tracking-widest rounded-xl transition-all ${
                     isActive(link.to)
-                      ? 'bg-white/20 text-white border-l-4 border-blue-400'
+                      ? 'bg-green-500/20 text-white border-l-4 border-green-500'
                       : 'text-white/80 hover:bg-white/10 hover:text-white'
                   }`}
                 >
@@ -122,6 +130,7 @@ const Navbar = () => {
             </div>
           </div>
         )}
+        
       </div>
     </nav>
   )
