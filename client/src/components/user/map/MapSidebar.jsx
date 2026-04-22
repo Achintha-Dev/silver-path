@@ -119,10 +119,6 @@ const MapSidebar = ({ destinations, loading, activeId, onHover, searchQuery }) =
                   </div>
 
                   <div className="flex items-center gap-3 text-white/60 text-xs">
-                    <div className="flex items-center gap-1">
-                      <FaMapMarkerAlt className="text-green-400 text-xs" />
-                      <span className="font-medium">{dest.distanceFromRideegama} km</span>
-                    </div>
                     {dest.rating && (
                       <div className="flex items-center gap-1">
                         <FaStar className="text-yellow-400 text-xs" />
