@@ -238,7 +238,7 @@ const DestinationDetail = () => {
 
           {/* ── Right Column (info cards) ── */}
           <Information destination={destination} />
-          
+
         </div>
       </div>
 

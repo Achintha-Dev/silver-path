@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaMapMarkerAlt, FaClock, FaArrowRight } from 'react-icons/fa'
+import StarRating from './StarRating'
 
 const DestinationCard = ({ dest }) => {
   
@@ -61,14 +62,30 @@ const DestinationCard = ({ dest }) => {
         </p>
 
         {/* Footer Info */}
-        <div className="flex items-center justify-between pt-4 border-t border-white/5">
-          <div className="flex items-center gap-2 text-white/40 text-[11px] font-bold uppercase tracking-wider">
-            <FaClock className="text-green-500/50" />
-            <span>{extractTime(dest.openingHours)}</span>
+        <div className="pt-4 border-t border-white/5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            
+            {/* Time Info */}
+            <div className="flex items-center gap-2 text-white/40 text-[11px] font-bold uppercase tracking-wider">
+              <FaClock className="text-green-500/50" />
+              <span>{extractTime(dest.openingHours)}</span>
+            </div>
+
+            {/* Rating Info - Responsive & Centered on mobile */}
+            <div className="flex items-center">
+              <StarRating
+                destinationId={dest._id}
+                initialAverageRating={dest.averageRating || 0}
+                initialTotalRatings={dest.totalRatings || 0}
+                showCount={true}
+                size="sm"
+                readOnly={true}
+              />
+            </div>
+            
           </div>
-          
-          
         </div>
+
       </div>
 
       {/* Glass Shine Effect on Hover */}

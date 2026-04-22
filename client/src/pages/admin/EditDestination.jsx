@@ -44,17 +44,17 @@ const EditDestination = () => {
           distanceFromRideegama: dest.distanceFromRideegama || ''
         })
 
-        setExistingImages(dest.images || [])
+        setExistingImages(dest.images || []);
 
       } catch (error) {
-        toast.error('Failed to load destination: ' + (error.response?.data?.message || error.message))
-        navigate('/admin/destinations')
+        toast.error('Failed to load destination: ' + (error.response?.data?.message || error.message));
+        navigate('/admin/destinations');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
-    fetchDestination()
-  }, [id, navigate])
+    fetchDestination();
+  }, [id, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -66,25 +66,25 @@ const EditDestination = () => {
     const totalImages = existingImages.length + newImages.length + files.length
 
     if (totalImages > 20) {
-      toast.error('Maximum 20 images allowed per destination')
+      toast.error('Maximum 20 images allowed per destination');
       return
     }
 
     setNewImages(prev => [...prev, ...files])
 
     files.forEach(file => {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onloadend = () => {
-        setNewPreviews(prev => [...prev, reader.result])
+        setNewPreviews(prev => [...prev, reader.result]);
       }
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file);
     })
   }
 
   // Remove a newly selected image (not yet uploaded)
   const removeNewImage = (index) => {
-    setNewImages(prev => prev.filter((_, i) => i !== index))
-    setNewPreviews(prev => prev.filter((_, i) => i !== index))
+    setNewImages(prev => prev.filter((_, i) => i !== index));
+    setNewPreviews(prev => prev.filter((_, i) => i !== index));
   }
 
   // Delete an existing image from Cloudinary + DB
@@ -92,7 +92,7 @@ const EditDestination = () => {
     const totalAfterDelete = existingImages.length + newImages.length - 1
 
     if (totalAfterDelete < 5) {
-      toast.error('Cannot delete — minimum 5 images required')
+      toast.error('Cannot delete — minimum 5 images required');
       return
     }
 
@@ -119,51 +119,46 @@ const EditDestination = () => {
             Authorization: `Bearer ${localStorage.getItem('adminToken')}`
           }
         }
-      )
-      setExistingImages(prev => prev.filter((_, i) => i !== index))
-      toast.success('Image deleted successfully')
+      );
+      setExistingImages(prev => prev.filter((_, i) => i !== index));
+      toast.success('Image deleted successfully');
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to delete image')
+      toast.error(error.response?.data?.message || 'Failed to delete image');
     }
   }
 
   // Submit form
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const totalImages = existingImages.length + newImages.length
     if (totalImages < 5) {
-      toast.error('Minimum 5 images required')
+      toast.error('Minimum 5 images required');
       return
     }
 
-    setSaving(true)
+    setSaving(true);
 
     try {
-      const data = new FormData()
+      const data = new FormData();
 
       // Append all text fields
       Object.entries(formData).forEach(([key, value]) => {
         data.append(key, value)
-      })
+      });
 
       // Append new image files if any
-      newImages.forEach(img => data.append('images', img))
+      newImages.forEach(img => data.append('images', img));
 
-      await api.put(`/destinations/${id}`, data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+      await api.put(`/destinations/${id}`, data);
 
-      toast.success('Destination updated successfully!')
-      navigate('/admin/destinations')
+      toast.success('Destination updated successfully!');
+      navigate('/admin/destinations');
 
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to update destination')
+      toast.error(error.response?.data?.message || 'Failed to update destination');
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
   }
 

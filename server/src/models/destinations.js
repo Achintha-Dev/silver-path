@@ -23,14 +23,14 @@ const destinationSchema = new mongoose.Schema({
     lat: { 
         type: Number, 
         required: true,  
-        min: [7.46, 'Latitude must be between 7.46 and 7.63'],
-        max: [7.63, 'Latitude must be between 7.46 and 7.63'] 
+        min: [7.46, 'Latitude must be between 7.46 and 7.70'],
+        max: [7.70, 'Latitude must be between 7.46 and 7.70'] 
     },
     lng: { 
         type: Number,
         required: true,
-        min: [80.44, 'Longitude must be between 80.44 and 80.60'],
-        max: [80.60, 'Longitude must be between 80.44 and 80.60']
+        min: [80.30, 'Longitude must be between 80.30 and 80.70'],
+        max: [80.70, 'Longitude must be between 80.30 and 80.70']
      }
   },
   openingHours: {
@@ -58,6 +58,26 @@ const destinationSchema = new mongoose.Schema({
     type: Number, 
     required: true
   },
+  // rating fields
+  ratings: {
+  type: [
+    {
+      ipHash: { type: String, required: true },
+      rating: { type: Number, required: true, min: 1, max: 5 }
+    }
+  ],
+  default: []  // empty array by default
+},
+averageRating: {
+  type: Number,
+  default: 0,
+  min: 0,
+  max: 5
+},
+totalRatings: {
+  type: Number,
+  default: 0
+}
 
 }, { timestamps: true });
 

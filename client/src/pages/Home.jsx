@@ -12,7 +12,8 @@ import Body from '../components/user/Body'
 
 // icons
 import { ImLeaf } from "react-icons/im";
-import { FaUsers, FaHiking, FaMapMarkedAlt, FaCalendar, FaSearch, FaGripfire, FaRegArrowAltCircleRight, FaPray, FaLandmark } from "react-icons/fa";
+import { FaUsers, FaHiking, FaMapMarkedAlt, FaCalendar, FaSearch, FaGripfire, FaRegArrowAltCircleRight, FaPray, FaLandmark, FaTree } from "react-icons/fa";
+import { GiPalmTree } from "react-icons/gi";
 
 const Home = () => {
   const [featured, setFeatured] = useState([]);
@@ -77,21 +78,24 @@ const Home = () => {
       <Hero onSearch={handleHeroSearch} />
 
       {/* ── Featured Destinations ── */}
-      <section className="max-w-7xl mx-auto px-10 mb-20 py-5 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl -mt-20">
+      <section className="relative z-20 max-w-7xl mx-auto px-10 mb-20 py-5 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl -mt-20">
         <div className="flex items-baseline justify-between mb-5 pb-3 border-b border-white/10">
-          <div>
-            <h2 className="text-3xl font-black font-['Montserrat'] text-white uppercase tracking-tighter">
-              Featured Destinations
-            </h2>
-            <p className="text-white/60 text-sm mt-1">Top picks within 25 km of Rideegama</p>
-          </div>
+          <div className="space-y-1">
+      <h2 className="text-xl md:text-3xl font-black font-['Montserrat'] text-white uppercase tracking-tighter leading-none">
+        Featured <span className="text-green-500">Destinations</span>
+      </h2>
+      <p className="text-white/60 text-xs md:text-sm font-medium">
+        Top picks within 25 km of Rideegama
+      </p>
+    </div>
           <Link
-            to="/destinations"
-            className="text-sm md:text-lg font-bold transition-colors text-white/80 hover:text-white group"
-            title='View all destinations'
-          >
-            MORE <FaRegArrowAltCircleRight className="inline-block mb-1 text-sm md:text-2xl transition-transform group-hover:translate-x-1.5" />
-          </Link>
+      to="/destinations"
+      className="flex items-center gap-2 text-xs md:text-lg font-bold transition-all text-white/80 hover:text-white group bg-white/5 sm:bg-transparent px-3 py-1.5 sm:p-0 rounded-full border border-white/10 sm:border-none"
+      title='View all destinations'
+    >
+      <span className="tracking-widest">MORE</span> 
+      <FaRegArrowAltCircleRight className="text-sm md:text-2xl transition-transform group-hover:translate-x-1.5 text-green-500" />
+    </Link>
         </div>
 
         {loading ? (
@@ -103,9 +107,9 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-24 bg-white/5 rounded-2xl border border-white/10">
-            <p className="text-5xl mb-4">🏝️</p>
-            <p className="text-white/50">No destinations yet — check back soon!</p>
+          <div className="flex flex-col items-center justify-center py-24 bg-white/5 rounded-2xl border border-white/10">
+            <GiPalmTree className="text-6xl text-white/20 mb-4" />
+            <p className="text-white/50 text-center">No destinations yet — check back soon!</p>
           </div>
         )}
       </section>

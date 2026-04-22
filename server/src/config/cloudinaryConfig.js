@@ -30,9 +30,19 @@ const storage = new CloudinaryStorage({
 
 });
 
+// Add fileFilter to only accept images
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image/')) {
+    cb(null, true)
+  } else {
+    cb(new Error('Only image files are allowed'), false)
+  }
+}
+
 const upload = multer({ 
   storage: storage, 
-  limits: { fileSize: 5 * 1024 * 1024 } 
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter 
 }); // 5MB max per image
 
 export {  cloudinary, upload  };

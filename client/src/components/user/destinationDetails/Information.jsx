@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaClock, FaMoneyBillWave, FaTools, FaWifi, FaPlus, FaMapMarkerAlt} from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import StarRating from '../StarRating'
 
 function Information( { destination } ) {
   const facilitiesArray = destination.facilities ? destination.facilities.split('.').map(fac => fac.trim()).filter(fac => fac.length > 0) : [];
@@ -96,6 +97,21 @@ function Information( { destination } ) {
                   </p>
                 </div>
               </div>
+
+              {/* Star Rating */}
+              <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <h2 className="text-white font-black uppercase tracking-wider text-sm mb-4 border-b border-white/10 pb-3">
+                  Rate This Place
+                </h2>
+
+                <StarRating
+                  destinationId={destination._id}
+                  showCount={true}
+                  size="lg"
+                  readOnly={false}
+                />
+              </div>
+
             </div>
 
             {/* Add to Planner CTA */}

@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast'
 
 // public pages
 import Home from './pages/Home'
-import DestinationDetail from './pages/admin/DestinationDetail'
+import DestinationDetail from './pages/user/DestinationDetail'
 import AllDestinations from './pages/user/AllDestinations'
 
 // admin pages

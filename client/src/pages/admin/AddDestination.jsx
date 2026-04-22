@@ -66,12 +66,7 @@ const AddDestination = () => {
       })
       images.forEach(img => data.append('images', img));
 
-      await api.post('/destinations', data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      await api.post('/destinations', data );
 
       toast.success('Destination created successfully!');
       navigate('/admin/destinations');
@@ -111,7 +106,7 @@ const AddDestination = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className={labelClass}>Name *</label>
+                <label htmlFor="name" className={labelClass}>Name *</label>
                 <input
                   name="name"
                   type="text"
@@ -134,7 +129,7 @@ const AddDestination = () => {
             </div>
 
             <div>
-              <label className={labelClass}>Description *</label>
+              <label htmlFor="description" className={labelClass}>Description *</label>
               <textarea
                 name="description"
                 placeholder="Describe this destination..."
@@ -147,7 +142,7 @@ const AddDestination = () => {
             </div>
 
             <div>
-              <label className={labelClass}>Address *</label>
+              <label htmlFor="address" className={labelClass}>Address *</label>
               <input
                 name="address"
                 type="text"
@@ -168,7 +163,7 @@ const AddDestination = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className={labelClass}>Latitude *</label>
+                <label htmlFor="lat" className={labelClass}>Latitude *</label>
                 <input
                   name="lat"
                   type="number"
@@ -181,7 +176,7 @@ const AddDestination = () => {
                 />
               </div>
               <div>
-                <label className={labelClass}>Longitude *</label>
+                <label htmlFor="lng" className={labelClass}>Longitude *</label>
                 <input
                   name="lng"
                   type="number"
@@ -194,7 +189,7 @@ const AddDestination = () => {
                 />
               </div>
               <div>
-                <label className={labelClass}>Distance from Rideegama (km) *</label>
+                <label htmlFor="distanceFromRideegama" className={labelClass}>Distance from Rideegama (km) *</label>
                 <input
                   name="distanceFromRideegama"
                   type="number"
@@ -223,7 +218,7 @@ const AddDestination = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className={labelClass}>Opening Hours *</label>
+                <label htmlFor="openingHours" className={labelClass}>Opening Hours *</label>
                 <input
                   name="openingHours"
                   type="text"
@@ -235,7 +230,7 @@ const AddDestination = () => {
                 />
               </div>
               <div>
-                <label className={labelClass}>Entry Fee</label>
+                <label htmlFor="entryFee" className={labelClass}>Entry Fee</label>
                 <input
                   name="entryFee"
                   type="text"
@@ -248,11 +243,12 @@ const AddDestination = () => {
             </div>
 
             <div>
-              <label className={labelClass}>Facilities</label>
-              <input
+              <label htmlFor="facilities" className={labelClass}>Facilities</label>
+              <textarea
                 name="facilities"
-                type="text"
+                type="textarea"
                 placeholder="e.g. Parking, Restrooms, Food Stalls"
+                rows={3}
                 className={inputClass}
                 value={formData.facilities}
                 onChange={handleChange}
@@ -260,7 +256,7 @@ const AddDestination = () => {
             </div>
 
             <div>
-              <label className={labelClass}>Travel Tips</label>
+              <label htmlFor="travelTips" className={labelClass}>Travel Tips</label>
               <textarea
                 name="travelTips"
                 placeholder="Any useful tips for visitors..."

@@ -2,6 +2,7 @@ import { getAllDestinations, getDestinationById, createDestination, updateDestin
 import express from 'express';
 import { protect, admin } from '../middleware/authMiddleware.js';
 import { upload } from '../config/cloudinaryConfig.js';
+import { rateDestination, getDestinationRating } from '../controllers/ratingController.js'
 
 const router = express.Router();
 
@@ -32,5 +33,10 @@ router.delete('/:id/images/:imageId', protect, admin, deleteImage);
 // @desc    Delete a destination
 // @route   DELETE /api/destinations/:id
 router.delete('/:id', protect, admin, deleteDestination);
+
+// @desc    Rate a destination
+// @route   POST /api/destinations/:id/rating
+router.post('/:id/rate', rateDestination);
+router.get('/:id/rating', getDestinationRating);
 
 export default router;
