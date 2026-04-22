@@ -81,8 +81,9 @@ User → React Frontend → Express API → MongoDB → API Response → UI Upda
 
 ### 📁 1. Clone Repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Achintha-Dev/silver-path.git
 cd SilverPath
+```
 
 ### 🔐 2. Environment Variables
 Create a .env file inside the /server directory:
