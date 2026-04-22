@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast'
 import Home from './pages/Home'
 import DestinationDetail from './pages/user/DestinationDetail'
 import AllDestinations from './pages/user/AllDestinations'
+import NotFound from './pages/NotFound'
 
 // admin pages
 import AdminLogin from './pages/admin/AdminLogin'
@@ -48,7 +49,6 @@ function App() {
         <Route path="/about" element={<h1>About</h1>} />
 
 
-
          {/* Admin routes */}
         <Route path="/admin/login" element={<AdminLogin />} />
 
@@ -69,9 +69,8 @@ function App() {
         } />
 
 
-
-        {/* 404 */}
-        {/* <Route path="*" element={<ComingSoon title="404 — Page Not Found" />} /> */}
+        {/* 404 page not found */}
+        <Route path="*" element={<NotFound />} />
 
       </Routes>
     </BrowserRouter>
