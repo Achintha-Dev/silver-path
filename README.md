@@ -114,24 +114,24 @@ npm run dev
 
 ## 📂 Project Structure
 
-SilverPath/
-├── client/                # React frontend
-│   ├── src/
-|   |   └── components/
-|   |       ├── admin
-|   |       └── user
-│   ├── src/
-|   |   └── pages/
-|   |       ├── admin
-|   |       └── user
-│   ├── src/utils
-|   └── src/hooks
-├── server/
-|   ├── src/config 
-|   ├── src/middleware               # Express backend
-│   ├── src/models
-│   ├── src/controllers
-│   └── src/routes
+├── client/ # React frontend
+│ ├── src/
+│ │ ├── components/
+│ │ │ ├── admin/
+│ │ │ └── user/
+│ │ ├── pages/
+│ │ │ ├── admin/
+│ │ │ └── user/
+│ │ ├── utils/
+│ │ └── hooks/
+├── server/ # Express backend
+│ ├── src/
+│ │ ├── config/
+│ │ ├── middleware/
+│ │ ├── models/
+│ │ ├── controllers/
+│ │ └── routes/
+├── screenshots/
 ├── README.md
 └── .env.example
 
@@ -173,11 +173,11 @@ Admin authentication
 
 ### Admin Dashboard
 ![Admin Dashboard](screenshots/admin-dashboard-page.png)
-![Admin Dashboard Mobile View](screenshots/admin-dashboard-page-mobile.png)
+![Admin Dashboard Mobile View](screenshots/admin-dashboard-mobile.png)
 
 ### Admin Add Destination
 ![Admin Add Destination](screenshots/add-destination-page.png)
-![Admin Add Destination Mobile View](screenshots/add-destination-page-mobile.png)
+![Admin Add Destination Mobile View](screenshots/add-destination-mobile.png)
 
 ### Admin Edit Destination
 ![Admin Dashboard](screenshots/edit-destination-page.png)
