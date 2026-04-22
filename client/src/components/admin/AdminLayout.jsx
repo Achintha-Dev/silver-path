@@ -47,7 +47,7 @@ const AdminLayout = ({ children }) => {
           autoPlay loop muted playsInline
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-[3px]" />
       </div>
 
       {/* Mobile Overlay */}
