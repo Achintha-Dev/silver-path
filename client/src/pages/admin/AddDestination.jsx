@@ -133,7 +133,7 @@ const AddDestination = () => {
               <textarea
                 name="description"
                 placeholder="Describe this destination..."
-                rows={4}
+                rows={10}
                 className={inputClass}
                 value={formData.description}
                 onChange={handleChange}

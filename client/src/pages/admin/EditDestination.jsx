@@ -221,7 +221,7 @@ const EditDestination = () => {
               <label htmlFor='description' className={labelClass}>Description *</label>
               <textarea
                 name="description"
-                rows={4}
+                rows={10}
                 className={inputClass}
                 value={formData.description}
                 onChange={handleChange}
