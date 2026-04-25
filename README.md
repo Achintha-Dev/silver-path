@@ -2,6 +2,7 @@
 ### Local Tourist Day-Visit Planner and Information System
 
 **Academic Project | Faculty of Information Technology | University of Moratuwa**
+**Student: Achintha Bandara | Registration No: E2320235**
 
 ---
 
@@ -16,7 +17,9 @@ It provides a centralized platform for discovering and managing tourist destinat
 ## 🎯 Objectives
 
 - **Centralized Information**: Provide reliable and up-to-date tourist data
-- **Efficient Planning**: Enable users to explore destinations within a 25 km radius  
+- **Interactive Map** — Leaflet.js map with category markers and 25 km radius overlay
+- **Efficient Planning**: Enable users to explore destinations within a 25 km radius 
+- **Real Road Routing** — OSRM integration for actual driving directions 
 - **Itinerary Support**: Assist in one-day visit planning
 - **Content Management**: Allow admins to manage destinations securely
 
@@ -34,8 +37,7 @@ The application follows **MVC (Model-View-Controller)** architecture:
 
 ### 🔄 System Flow
 
-User → React Frontend → Express API → MongoDB → API Response → UI Update
-
+User/Admin → React Frontend (Vite) → Express.js REST API → MongoDB Atlas ←→ Cloudinary (images) ←→ OSRM (road routing)
 
 ---
 
@@ -46,8 +48,10 @@ User → React Frontend → Express API → MongoDB → API Response → UI Upda
 - Search and filter by category
 - View detailed information including description, facilities, and travel tips
 - Interactive map using Leaflet
+- One-day visit planning
 
 ### 🔐 Admin Features
+- Secret URL key protection (hidden admin login page)
 - Secure login using JWT authentication
 - Add, update, and delete destinations with full CRUD
 - Upload and manage destination images
@@ -62,20 +66,23 @@ User → React Frontend → Express API → MongoDB → API Response → UI Upda
 ## 🧰 Tech Stack
 
 | Layer | Technology |
-|------|-----------|
-| Frontend | React 18, React Router, Tailwind CSS, Axios |
-| Backend | Node.js, Express.js |
-| Database | MongoDB Atlas |
-| Auth | JWT, Bcrypt.js |
-| Media | Cloudinary |
-| Maps | Leaflet + OpenStreetMap |
+|---|---|
+| Frontend | React 18, React Router DOM, Tailwind CSS, DaisyUI |
+| UI Libraries | React Icons, React Hot Toast, SweetAlert2 |
+| Maps | Leaflet.js, React-Leaflet, OpenStreetMap, OSRM |
+| Backend | Node.js v18+, Express.js |
+| Database | MongoDB Atlas, Mongoose ODM |
+| Authentication | JWT (24h expiry), bcrypt.js (cost factor 10) |
+| Media Storage | Cloudinary, Multer, multer-storage-cloudinary |
+| Security | express-rate-limit, Admin access key middleware |
+| Build Tool | Vite |
 
 ---
 
 ## 🚀 Installation and Setup
 
 ### 🔧 Prerequisites
-- Node.js v16 or higher
+- Node.js v18 or higher
 - MongoDB Atlas account
 - Cloudinary account
 
@@ -88,63 +95,141 @@ cd SilverPath
 ### 🔐 2. Environment Variables
 Create a .env file inside the /server directory:
 
+
+```env
 PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
+MONGO_URI=your_mongodb_atlas_connection_string
+JWT_SECRET=your_jwt_secret_key
+ADMIN_ACCESS_KEY=your_admin_secret_key
+NODE_ENV=development
+CLIENT_URL=http://localhost:5173
 
-CLOUDINARY_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+```
 You can use .env.example as a template.
 
 ### ▶️ 3. Run Backend
 
+```bash
 cd server
 npm install
 npm run dev
+```
 
-### ▶️ 4. Run Frontend
+Server runs on: `http://localhost:5000`
 
+### ▶️ 4. Seed Admin Account (First time only)
+
+```bash
+cd server
+node src/config/seedAdmin.js
+```
+
+This creates the default admin account.
+
+### ▶️ 5. Run Frontend
+
+```bash
 cd client
 npm install
 npm run dev
+```
+
+Frontend runs on: `http://localhost:5173`
+
+---
+
+## 🔑 Access Information
+
+### Tourist Interface
+URL: http://localhost:5173##
+
+### Admin Panel
+URL:      http://localhost:5173/admin/login?key=YOUR_ADMIN_ACCESS_KEY
+Email:    admin@silverpath.com
+Password: Admin@12345
+
+> ⚠️ The admin login page is intentionally hidden. Visiting
+> `/admin/login` without the correct `?key=` parameter
+> redirects to the home page for security.
 
 ---
 
 ## 📂 Project Structure
 
-├── client/ # React frontend
-│ ├── src/
-│ │ ├── components/
-│ │ │ ├── admin/
-│ │ │ └── user/
-│ │ ├── pages/
-│ │ │ ├── admin/
-│ │ │ └── user/
-│ │ ├── utils/
-│ │ └── hooks/
-├── server/ # Express backend
-│ ├── src/
-│ │ ├── config/
-│ │ ├── middleware/
-│ │ ├── models/
-│ │ ├── controllers/
-│ │ └── routes/
-├── screenshots/
+silver-path/
+├── client/                   # React frontend (Vite)
+│   ├── src/
+│   │   ├── assets/           # Static assets (video background)
+│   │   ├── components/
+│   │   │   ├── admin/             # Admin components (Layout, GlassySelect)
+│   │   │   └── user/              # Tourist components
+│   │   │       ├── destinations/  # Destination list components
+│   │   │       ├── map/           # Map components
+│   │   │       └── planner/       # Planner + tab components
+│   │   ├── hooks/            # Custom hooks (usePlannerStorage, useUserLocation)
+│   │   ├── pages/
+│   │   │   ├── admin/        # Admin pages
+│   │   │   └── user/         # Tourist pages
+│   │   └── utils/            # API client, distance calculations
+│   ├── package.json
+│   └── vite.config.js
+│
+├── server/                   # Express.js backend
+│   ├── src/
+│   │   ├── config/           # DB connection, Cloudinary config, seedAdmin
+│   │   ├── controllers/      # Route handlers
+│   │   ├── middleware/       # Auth, admin access, rate limiter
+│   │   ├── models/           # Mongoose schemas (Destination, Admin)
+│   │   └── routes/           # API routes
+│   ├── server.js             # Entry point
+│   └── package.json
+│
+├── screenshots/              # Project screenshots
 ├── README.md
 └── .env.example
 
 ---
 
-## 🧪 Testing
-Functional testing was performed for:
+## 🗺️ API Endpoints
 
-Destination CRUD operations
-Image upload functionality
-Search and filtering
-API endpoint responses
-Admin authentication
+### Public Routes
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/destinations` | Get all destinations (with filters) |
+| GET | `/api/destinations/:id` | Get single destination |
+| GET | `/api/destinations/:id/rating` | Get destination rating |
+| POST | `/api/destinations/:id/rate` | Rate a destination |
+| GET | `/api/auth/verify-access` | Verify admin secret key |
+| POST | `/api/auth/login` | Admin login |
+
+### Protected Routes (Admin)
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/destinations` | Create destination |
+| PUT | `/api/destinations/:id` | Update destination |
+| DELETE | `/api/destinations/:id` | Delete destination |
+| POST | `/api/destinations/:id/images` | Add images |
+| POST | `/api/destinations/:id/images/delete` | Delete single image |
+| GET | `/api/auth/me` | Get current admin |
+| POST | `/api/auth/logout` | Logout |
+
+---
+
+## 🧪 Testing
+Functional testing was performed using **Postman** for API endpoints and **manual browser testing** across Chrome, Firefox, Edge, and Safari.
+
+Test coverage includes:
+- All CRUD operations for destinations
+- Image upload and deletion (Cloudinary sync)
+- Admin authentication and JWT validation
+- Secret key protection and rate limiting
+- Category and distance filtering
+- Visit planner route optimization
+- Star rating system
+- Responsive layout on mobile devices
 
 ---
 
@@ -185,10 +270,14 @@ Admin authentication
 ---
 
 ## Author
-Name: Achintha Bandara
-GitHub: https://github.com/Achintha-Dev
-University: University of Moratuwa
-Module: ITE2953 - Programming Group Project
+
+| Field | Details |
+|---|---|
+| Name | Achintha Bandara |
+| Registration No | E2320235 |
+| GitHub | https://github.com/Achintha-Dev |
+| University | Open University of Sri Lanka |
+| Module | ITE2953 - Programming Group Project 25S1 |
 
 ---
 
@@ -203,4 +292,6 @@ Module: ITE2953 - Programming Group Project
 [![Express](https://img.shields.io/badge/API-Express.js-000000?logo=express&logoColor=white)](https://expressjs.com)
 [![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?logo=mongodb&logoColor=white)](https://mongodb.com)
 [![TailwindCSS](https://img.shields.io/badge/Styling-Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![License](https://img.shields.io/badge/License-Academic-blue)](#-license)
+[![Cloudinary](https://img.shields.io/badge/Media-Cloudinary-3448C5?logo=cloudinary&logoColor=white)](https://cloudinary.com)
+[![Leaflet](https://img.shields.io/badge/Maps-Leaflet.js-199900?logo=leaflet&logoColor=white)](https://leafletjs.com)
+[![License](https://img.shields.io/badge/License-Academic-blue)](#)
