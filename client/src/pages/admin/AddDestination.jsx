@@ -248,7 +248,7 @@ const AddDestination = () => {
                 name="facilities"
                 type="textarea"
                 placeholder="e.g. Parking, Restrooms, Food Stalls"
-                rows={3}
+                rows={10}
                 className={inputClass}
                 value={formData.facilities}
                 onChange={handleChange}
@@ -260,7 +260,7 @@ const AddDestination = () => {
               <textarea
                 name="travelTips"
                 placeholder="Any useful tips for visitors..."
-                rows={3}
+                rows={10}
                 className={inputClass}
                 value={formData.travelTips}
                 onChange={handleChange}
