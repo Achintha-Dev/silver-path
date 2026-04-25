@@ -1,7 +1,7 @@
 # 🌍 Silver Path
 ### Local Tourist Day-Visit Planner and Information System
 
-**Academic Project | Faculty of Information Technology | University of Moratuwa**
+**Academic Project | Faculty of Information Technology (BIT) | University of Moratuwa**
 **Student: Achintha Bandara | Registration No: E2320235**
 
 ---
@@ -144,12 +144,12 @@ Frontend runs on: `http://localhost:5173`
 ## 🔑 Access Information
 
 ### Tourist Interface
-URL: http://localhost:5173##
+- URL: http://localhost:5173##
 
 ### Admin Panel
-URL:      http://localhost:5173/admin/login?key=YOUR_ADMIN_ACCESS_KEY
-Email:    admin@silverpath.com
-Password: Admin@12345
+- URL:      http://localhost:5173/admin/login?key=YOUR_ADMIN_ACCESS_KEY
+- Email:    admin@silverpath.com
+- Password: Admin@12345
 
 > ⚠️ The admin login page is intentionally hidden. Visiting
 > `/admin/login` without the correct `?key=` parameter
@@ -159,6 +159,7 @@ Password: Admin@12345
 
 ## 📂 Project Structure
 
+```
 silver-path/
 ├── client/                   # React frontend (Vite)
 │   ├── src/
@@ -190,6 +191,7 @@ silver-path/
 ├── screenshots/              # Project screenshots
 ├── README.md
 └── .env.example
+```
 
 ---
 
@@ -276,7 +278,8 @@ Test coverage includes:
 | Name | Achintha Bandara |
 | Registration No | E2320235 |
 | GitHub | https://github.com/Achintha-Dev |
-| University | Open University of Sri Lanka |
+| Degree Program | Bachelor of Information Technology (BIT) |
+| University |University of Moratuwa, Sri Lanka |
 | Module | ITE2953 - Programming Group Project 25S1 |
 
 ---
