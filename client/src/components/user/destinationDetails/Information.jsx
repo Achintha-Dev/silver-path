@@ -71,7 +71,7 @@ function Information( { destination } ) {
                       Facilities
                     </p>
                     {facilitiesArray.map((fac, index) => (
-                      <p key={index} className="text-white font-bold text-sm mt-0.5 ml-3 text-justify">
+                      <p key={index} className="text-white font-bold text-sm mt-0.5 ml-3 text-left">
                         <li>{fac}.</li>
                         <br/>
                       </p>

@@ -273,7 +273,7 @@ const AddDestination = () => {
             <h3 className="text-white font-bold uppercase tracking-wider text-sm border-b border-white/10 pb-3">
               Images
               <span className="text-white/40 font-normal ml-2 normal-case text-xs">
-                (minimum 5 required, max 20)
+                (minimum 1 required, max 20)
               </span>
             </h3>
 
@@ -298,7 +298,7 @@ const AddDestination = () => {
             {/* Image count indicator */}
             {images.length > 0 && (
               <div className="flex items-center gap-2">
-                <div className={`text-xs font-bold ${images.length >= 5 ? 'text-green-400' : 'text-amber-400'}`}>
+                <div className={`text-xs font-bold ${images.length >= 1 ? 'text-green-400' : 'text-amber-400'}`}>
                   {images.length} image{images.length !== 1 ? 's' : ''} selected ✓
                 </div>
               </div>
