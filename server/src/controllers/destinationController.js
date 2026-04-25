@@ -79,6 +79,14 @@ export const createDestination = async (req, res) => {
             public_id: file.filename
         })) : [];
 
+        // Just check at least 1 image exists
+        if (!req.files || req.files.length < 1) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please upload at least 1 image'
+            });
+        }
+
         const newDestination = new Destination({
             name,
             category,
@@ -193,35 +201,43 @@ export const addImages = async (req, res) => {
 // @access  Private (Admin only)
 export const deleteImage = async (req, res) => {
   try {
-    const destination = await Destination.findById(req.params.id)
 
-    if (!destination) {
-      return res.status(404).json({ success: false, message: 'Destination not found' })
-    }
+    const { publicId } = req.body;
 
-    // Prevent deleting if only 5 images remain
-    if (destination.images.length <= 5) {
+    if (!publicId) {
       return res.status(400).json({
         success: false,
-        message: 'Cannot delete — minimum 5 images required per destination'
-      })
+        message: 'publicId is required in request body'
+      });
     }
 
-    const publicId = decodeURIComponent(req.params.publicId)
+    const destination = await Destination.findById(req.params.id);
+
+    if (!destination) {
+      return res.status(404).json({ success: false, message: 'Destination not found' });
+    }
+
+    // Prevent deleting if only 1 image remain
+    if (destination.images.length <= 1) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot delete — destination must have at least 1 image'
+      });
+    }
 
     // Delete from Cloudinary
-    await cloudinary.uploader.destroy(publicId)
+    const cloudinaryResult = await cloudinary.uploader.destroy(publicId);
 
     // Remove from database
     destination.images = destination.images.filter(
       img => img.public_id !== publicId
     )
-    await destination.save()
+    await destination.save();
 
-    res.status(200).json({ success: true, data: destination })
+    res.status(200).json({ success: true, data: destination });
 
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message })
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

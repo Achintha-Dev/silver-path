@@ -52,8 +52,8 @@ const AddDestination = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (images.length < 5) {
-      toast.error('Please upload at least 5 images');
+    if (images.length < 1) {
+      toast.error('Please upload at least 1 image');
       return
     }
 
@@ -299,8 +299,7 @@ const AddDestination = () => {
             {images.length > 0 && (
               <div className="flex items-center gap-2">
                 <div className={`text-xs font-bold ${images.length >= 5 ? 'text-green-400' : 'text-amber-400'}`}>
-                  {images.length} / 5 minimum
-                  {images.length >= 5 ? ' ✓' : ` (need ${5 - images.length} more)`}
+                  {images.length} image{images.length !== 1 ? 's' : ''} selected ✓
                 </div>
               </div>
             )}

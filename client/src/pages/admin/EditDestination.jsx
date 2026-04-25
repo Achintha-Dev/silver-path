@@ -88,11 +88,11 @@ const EditDestination = () => {
   }
 
   // Delete an existing image from Cloudinary + DB
-  const handleDeleteExistingImage = async (publicId, index) => {
+  const handleDeleteExistingImage = async (publicId) => {
     const totalAfterDelete = existingImages.length + newImages.length - 1
 
-    if (totalAfterDelete < 5) {
-      toast.error('Cannot delete — minimum 5 images required');
+    if (totalAfterDelete < 1) {
+      toast.error('Cannot delete — minimum 1 image required');
       return
     }
 
@@ -112,16 +112,13 @@ const EditDestination = () => {
     if (!result.isConfirmed) return
 
     try {
-      await api.delete(
-        `/destinations/${id}/images/${encodeURIComponent(publicId)}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('adminToken')}`
-          }
-        }
+      const res = await api.post(
+        `/destinations/${id}/images/delete`,
+        { publicId }
       );
-      setExistingImages(prev => prev.filter((_, i) => i !== index));
+      setExistingImages(res.data.data.images)
       toast.success('Image deleted successfully');
+
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to delete image');
     }
@@ -132,8 +129,8 @@ const EditDestination = () => {
     e.preventDefault();
 
     const totalImages = existingImages.length + newImages.length
-    if (totalImages < 5) {
-      toast.error('Minimum 5 images required');
+    if (totalImages < 1) {
+      toast.error('Minimum 1 image required');
       return
     }
 
@@ -355,7 +352,7 @@ const EditDestination = () => {
             <h3 className="text-white font-bold uppercase tracking-wider text-sm border-b border-white/10 pb-3">
               Images
               <span className="text-white/40 font-normal ml-2 normal-case text-xs">
-                ({existingImages.length + newImages.length} total — minimum 5)
+                ({existingImages.length + newImages.length} total)
               </span>
             </h3>
 
@@ -374,7 +371,7 @@ const EditDestination = () => {
                       {/* Delete button */}
                       <button
                         type="button"
-                        onClick={() => handleDeleteExistingImage(img.public_id, i)}
+                        onClick={() => handleDeleteExistingImage(img.public_id)}
                         className="absolute top-1 right-1 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                         title="Delete image"
                       >
