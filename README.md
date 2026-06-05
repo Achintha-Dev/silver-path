@@ -1,10 +1,45 @@
 # 🌍 Silver Path
+<p align="center">
+    <a href="https://github.com/Achintha-Dev/silver-path">
+        <img src="screenshots/banner.png" alt="Silver Path Banner" />
+    </a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Frontend-React_18-61DAFB?logo=react&logoColor=blue" />
+  <img src="https://img.shields.io/badge/Backend-Node.js-339933?logo=node.js&logoColor=green" />
+  <img src="https://img.shields.io/badge/API-Express.js-000000?logo=express&logoColor=yellow" />
+  <img src="https://img.shields.io/badge/Database-MongoDB-47A248?logo=mongodb&logoColor=green" />
+  <img src="https://img.shields.io/badge/Styling-Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=blue" />
+  <img src="https://img.shields.io/badge/Media-Cloudinary-3448C5?logo=cloudinary&logoColor=blue" />
+  <img src="https://img.shields.io/badge/Maps-Leaflet.js-199900?logo=leaflet&logoColor=lime" />
+  <img src="https://img.shields.io/badge/Status-Academic_Project-blue" />
+  <img src="https://img.shields.io/badge/License-Academic-blue" />
+</p>
+
 ### Local Tourist Day-Visit Planner and Information System
 
 **Academic Project | Faculty of Information Technology (BIT) | University of Moratuwa**
 **Student: Achintha Bandara | Registration No: E2320235**
 
----
+[Live Demo](#) • [Features](#️-key-featuresfeatures) • [Installation](#-installation-and-setup) • [API](#️-api-endpoints)
+
+## Table of Contents
+
+- [Overview](#-overview)
+- [Features](#️-key-features)
+- [Screenshots](#-screenshots)
+- [Architecture](#️-system-architecture)
+- [Project Structure](#-project-structure)
+- [Tech Stack](#-tech-stack)
+- [Installation](#-installation-and-setup)
+- [API Endpoints](#️-api-endpoints)
+- [Security](#security)
+- [Testing](#-testing)
+- [Future Improvements](#future-improvements)
+- [Deployment](#deployment)
+- [Author](#author)
+- [License](#license)
 
 ## 📌 Overview
 
@@ -12,36 +47,7 @@ Silver Path is a full-stack MERN (MongoDB, Express, React, Node.js) web applicat
 
 It provides a centralized platform for discovering and managing tourist destinations within a **25 km radius**. Users can explore locations, view detailed information, and plan efficient one-day visits.
 
----
-
-## 🎯 Objectives
-
-- **Centralized Information**: Provide reliable and up-to-date tourist data
-- **Interactive Map** — Leaflet.js map with category markers and 25 km radius overlay
-- **Efficient Planning**: Enable users to explore destinations within a 25 km radius 
-- **Real Road Routing** — OSRM integration for actual driving directions 
-- **Itinerary Support**: Assist in one-day visit planning
-- **Content Management**: Allow admins to manage destinations securely
-
----
-
-## 🏗️ System Architecture
-
-The application follows **MVC (Model-View-Controller)** architecture:
-
-- **Frontend**: React.js SPA with Tailwind CSS
-- **Backend**: Node.js + Express.js REST API
-- **Database**: MongoDB Atlas
-- **Authentication**: JWT-based admin authentication
-- **Media**: Cloudinary for image storage
-
-### 🔄 System Flow
-
-User/Admin → React Frontend (Vite) → Express.js REST API → MongoDB Atlas ←→ Cloudinary (images) ←→ OSRM (road routing)
-
----
-
-## ⚙️ Core Features
+## ⚙️ Key Features
 
 ### 🧭 User Features
 - Browse and explore tourist destinations
@@ -58,10 +64,107 @@ User/Admin → React Frontend (Vite) → Express.js REST API → MongoDB Atlas �
 
 ### ⚡ Technical Highlights
 - Geospatial validation within a 25 km radius
+- OSRM (Open Source Routing Machine) route optimization
 - Responsive design for mobile and desktop
 - Dynamic data fetching and filtering
+- Cloudinary image storage
+
+## 📸 Screenshots
+
+### Home Page
+<p align="center">
+  <img src="screenshots/home-page1.png" alt="Silver Path Banner" width='1000' />
+</p>
+
+
+### Destination Explorer
+<p align="center">
+  <img src="screenshots/destinations-page1.png" alt="Silver Path Banner" width='1000' />
+</p>
+
+
+### Interactive Map
+<p align="center">
+  <img src="screenshots/map-page.png" alt="Silver Path Banner" width='1000' />
+</p>
+
+### Admin Dashboard
+<p align="center">
+  <img src="screenshots/admin-dashboard-page.png" alt="Silver Path Banner" width='1000' />
+</p>
+
+## 🏗️ System Architecture
+
+The application follows **MVC (Model-View-Controller)** architecture:
+
+- **Frontend**: React.js SPA with Tailwind CSS
+- **Backend**: Node.js + Express.js REST API
+- **Database**: MongoDB Atlas
+- **Authentication**: JWT-based admin authentication
+- **Media**: Cloudinary for image storage
+
+### 🔄 System Flow
+
+User/Admin → React Frontend (Vite) → Express.js REST API → MongoDB Atlas ←→ Cloudinary (images) ←→ OSRM (road routing)
+
+```
+                ┌──────────────┐
+                │ React Client │
+                └──────┬───────┘
+                       │
+                       ▼
+                ┌──────────────┐
+                │ Express API  │
+                └──────┬───────┘
+                       │
+       ┌───────────────┼───────────────┐
+       │               │               │
+       ▼               ▼               ▼
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│ MongoDB Atlas│ │  Cloudinary  │ │     OSRM     │
+└──────────────┘ └──────────────┘ └──────────────┘
+
+```
+
+## 📂 Project Structure
+
+```
+silver-path/
+├── client/                   # React frontend (Vite)
+│   ├── src/
+│   │   ├── assets/           # Static assets (video background)
+│   │   ├── components/
+│   │   │   ├── admin/             # Admin components (Layout, GlassySelect)
+│   │   │   └── user/              # Tourist components
+│   │   │       ├── destinations/  # Destination list components
+│   │   │       ├── map/           # Map components
+│   │   │       └── planner/       # Planner + tab components
+│   │   ├── hooks/            # Custom hooks (usePlannerStorage, useUserLocation)
+│   │   ├── pages/
+│   │   │   ├── admin/        # Admin pages
+│   │   │   └── user/         # Tourist pages
+│   │   └── utils/            # API client, distance calculations
+│   ├── package.json
+│   └── vite.config.js
+│
+├── server/                   # Express.js backend
+│   ├── src/
+│   │   ├── config/           # DB connection, Cloudinary config, seedAdmin
+│   │   ├── controllers/      # Route handlers
+│   │   ├── middleware/       # Auth, admin access, rate limiter
+│   │   ├── models/           # Mongoose schemas (Destination, Admin)
+│   │   └── routes/           # API routes
+│   ├── server.js             # Entry point
+│   └── package.json
+│
+├── screenshots/              # Project screenshots
+├── README.md
+└── .env.example
+```
 
 ---
+
+
 
 ## 🧰 Tech Stack
 
@@ -89,7 +192,7 @@ User/Admin → React Frontend (Vite) → Express.js REST API → MongoDB Atlas �
 ### 📁 1. Clone Repository
 ```bash
 git clone https://github.com/Achintha-Dev/silver-path.git
-cd SilverPath
+cd silver-path
 ```
 
 ### 🔐 2. Environment Variables
@@ -143,55 +246,17 @@ Frontend runs on: `http://localhost:5173`
 
 ## 🔑 Access Information
 
-### Tourist Interface
-- URL: http://localhost:5173##
+### User Interface
+- URL: http://localhost:5173
 
 ### Admin Panel
-- URL:      http://localhost:5173/admin/login?key=YOUR_ADMIN_ACCESS_KEY
-- Email:    admin@silverpath.com
-- Password: Admin@12345
+- URL: http://localhost:5173/admin/login?key=YOUR_ADMIN_ACCESS_KEY
+- The admin account is generated using the seed script.
+- Configure your own credentials before deployment.
 
 > ⚠️ The admin login page is intentionally hidden. Visiting
 > `/admin/login` without the correct `?key=` parameter
 > redirects to the home page for security.
-
----
-
-## 📂 Project Structure
-
-```
-silver-path/
-├── client/                   # React frontend (Vite)
-│   ├── src/
-│   │   ├── assets/           # Static assets (video background)
-│   │   ├── components/
-│   │   │   ├── admin/             # Admin components (Layout, GlassySelect)
-│   │   │   └── user/              # Tourist components
-│   │   │       ├── destinations/  # Destination list components
-│   │   │       ├── map/           # Map components
-│   │   │       └── planner/       # Planner + tab components
-│   │   ├── hooks/            # Custom hooks (usePlannerStorage, useUserLocation)
-│   │   ├── pages/
-│   │   │   ├── admin/        # Admin pages
-│   │   │   └── user/         # Tourist pages
-│   │   └── utils/            # API client, distance calculations
-│   ├── package.json
-│   └── vite.config.js
-│
-├── server/                   # Express.js backend
-│   ├── src/
-│   │   ├── config/           # DB connection, Cloudinary config, seedAdmin
-│   │   ├── controllers/      # Route handlers
-│   │   ├── middleware/       # Auth, admin access, rate limiter
-│   │   ├── models/           # Mongoose schemas (Destination, Admin)
-│   │   └── routes/           # API routes
-│   ├── server.js             # Entry point
-│   └── package.json
-│
-├── screenshots/              # Project screenshots
-├── README.md
-└── .env.example
-```
 
 ---
 
@@ -220,6 +285,17 @@ silver-path/
 
 ---
 
+## Security
+
+- JWT Authentication
+- Password Hashing (bcrypt)
+- Protected Routes
+- Rate Limiting
+- Environment Variable Protection
+- Admin Access Key Validation
+
+---
+
 ## 🧪 Testing
 Functional testing was performed using **Postman** for API endpoints and **manual browser testing** across Chrome, Firefox, Edge, and Safari.
 
@@ -235,39 +311,26 @@ Test coverage includes:
 
 ---
 
-## 📸 Screenshots
+## Future Improvements
 
-### Home Page
-![Home Page1](screenshots/home-page1.png)
-![Home Page2](screenshots/home-page2.png)
-![Home Page3](screenshots/home-page3.png)
-![Home Page Mobile View](screenshots/home-page-mobile.png)
+- User accounts
+- Personalized recommendations
+- AI-powered itinerary generation
+- Multi-language support
+- Progressive Web App (PWA)
+- Tourist review system
+- Offline map support
 
-### Destinations Page
-![Destinations Page1](screenshots/destinations-page1.png)
-![Destinations Page2](screenshots/destinations-page2.png)
-![Destinations Page Mobile View](screenshots/destinations-page-mobile.png)
+---
 
-### Map View
-![Map View1](screenshots/map-page.png)
-![Map Page Mobile View](screenshots/map-page-mobile.png)
+## Deployment
 
-### Plan Visit Page
-![Plan Visit Page](screenshots/plan-visit-page1.png)
-
-### Admin Login Page
-![Admin Dashboard](screenshots/admin-login-page.png)
-
-### Admin Dashboard
-![Admin Dashboard](screenshots/admin-dashboard-page.png)
-![Admin Dashboard Mobile View](screenshots/admin-dashboard-mobile.png)
-
-### Admin Add Destination
-![Admin Add Destination](screenshots/add-destination-page.png)
-![Admin Add Destination Mobile View](screenshots/add-destination-mobile.png)
-
-### Admin Edit Destination
-![Admin Dashboard](screenshots/edit-destination-page.png)
+| Service | Platform |
+|----------|----------|
+| Frontend | Vercel |
+| Backend | Render |
+| Database | MongoDB Atlas |
+| Media Storage | Cloudinary |
 
 ---
 
@@ -276,25 +339,20 @@ Test coverage includes:
 | Field | Details |
 |---|---|
 | Name | Achintha Bandara |
-| Registration No | E2320235 |
 | GitHub | https://github.com/Achintha-Dev |
+
+## Academic Information
+| Field | Details |
+|---|---|
+| Registration No | E2320235 |
 | Degree Program | Bachelor of Information Technology (BIT) |
 | University |University of Moratuwa, Sri Lanka |
 | Module | ITE2953 - Programming Group Project 25S1 |
+| Semester | 25S1 |
 
 ---
+## License
 
-## Live Demo
--- coming soon.
+This project was developed for academic purposes as part of the Bachelor of Information Technology degree program at the University of Moratuwa.
 
----
-
-## Badges
-[![React](https://img.shields.io/badge/Frontend-React_18-61DAFB?logo=react&logoColor=white)](https://react.dev)
-[![Node.js](https://img.shields.io/badge/Backend-Node.js-339933?logo=node.js&logoColor=white)](https://nodejs.org)
-[![Express](https://img.shields.io/badge/API-Express.js-000000?logo=express&logoColor=white)](https://expressjs.com)
-[![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?logo=mongodb&logoColor=white)](https://mongodb.com)
-[![TailwindCSS](https://img.shields.io/badge/Styling-Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![Cloudinary](https://img.shields.io/badge/Media-Cloudinary-3448C5?logo=cloudinary&logoColor=white)](https://cloudinary.com)
-[![Leaflet](https://img.shields.io/badge/Maps-Leaflet.js-199900?logo=leaflet&logoColor=white)](https://leafletjs.com)
-[![License](https://img.shields.io/badge/License-Academic-blue)](#)
+[Go back to up ⬆](#-silver-path)
