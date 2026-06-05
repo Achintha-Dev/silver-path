@@ -1,6 +1,6 @@
 # 🌍 Silver Path
 <p align="center">
-    <a href="https://github.com/Achintha-Dev/silver-path">
+    <a href="https://github.com/Achintha-Dev/silver-path" target="_blank">
         <img src="screenshots/banner.png" alt="Silver Path Banner" />
     </a>
 </p>
@@ -14,15 +14,31 @@
   <img src="https://img.shields.io/badge/Media-Cloudinary-3448C5?logo=cloudinary&logoColor=blue" />
   <img src="https://img.shields.io/badge/Maps-Leaflet.js-199900?logo=leaflet&logoColor=lime" />
   <img src="https://img.shields.io/badge/Status-Academic_Project-blue" />
-  <img src="https://img.shields.io/badge/License-Academic-blue" />
+
+  <a src='/LICENSE'>
+    <img src="https://img.shields.io/badge/License-Academic-blue" />
+  </a>
+
+  <img src="https://img.shields.io/badge/Status-Completed-success" />
+  <img src="https://img.shields.io/badge/Academic_Project-UOM-salmon" />
+  
+  <a href="https://silver-path-five.vercel.app">
+    <img src="https://img.shields.io/badge/Live-Demo-success" />
+  </a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/stars/Achintha-Dev/silver-path?style=social" />
+  <img src="https://img.shields.io/github/forks/Achintha-Dev/silver-path?style=social" />
 </p>
 
 ### Local Tourist Day-Visit Planner and Information System
+> 🗺️ Discover, plan, and explore tourist destinations within a 25 km radius of Rideegama, Sri Lanka.
 
 **Academic Project | Faculty of Information Technology (BIT) | University of Moratuwa**
 
 
-[Live Demo](#) • [Features](#️-key-featuresfeatures) • [Installation](#-installation-and-setup) • [API](#️-api-endpoints)
+[Live Demo](https://silver-path-five.vercel.app/) • [Features](#️-key-featuresfeatures) • [Installation](#-installation-and-setup) • [API](#️-api-endpoints)
 
 ## Table of Contents
 
@@ -34,10 +50,10 @@
 - [Tech Stack](#-tech-stack)
 - [Installation](#-installation-and-setup)
 - [API Endpoints](#️-api-endpoints)
-- [Security](#security)
+- [Security](#-security)
 - [Testing](#-testing)
-- [Future Improvements](#future-improvements)
-- [Deployment](#deployment)
+- [Future Improvements](#-future-improvements)
+- [Deployment](#️-deployment)
 - [Author](#author)
 - [License](#license)
 
@@ -47,27 +63,34 @@ Silver Path is a full-stack MERN (MongoDB, Express, React, Node.js) web applicat
 
 It provides a centralized platform for discovering and managing tourist destinations within a **25 km radius**. Users can explore locations, view detailed information, and plan efficient one-day visits.
 
+### Project Objectives
+
+- Promote local tourism in Rideegama.
+- Provide destination discovery and route planning.
+- Centralize tourist information.
+- Support destination management through an admin dashboard.
+
 ## ⚙️ Key Features
 
 ### 🧭 User Features
-- Browse and explore tourist destinations
-- Search and filter by category
-- View detailed information including description, facilities, and travel tips
-- Interactive map using Leaflet
-- One-day visit planning
+- Browse and explore tourist destinations.
+- Search and filter by category.
+- View detailed information including description, facilities, and travel tips.
+- Interactive map using Leaflet.
+- One-day visit planning.
 
 ### 🔐 Admin Features
-- Secret URL key protection (hidden admin login page)
-- Secure login using JWT authentication
-- Add, update, and delete destinations with full CRUD
-- Upload and manage destination images
+- Secret URL key protection (hidden admin login page).
+- Secure login using JWT authentication.
+- Add, update, and delete destinations with full CRUD.
+- Upload and manage destination images.
 
 ### ⚡ Technical Highlights
-- Geospatial validation within a 25 km radius
-- OSRM (Open Source Routing Machine) route optimization
-- Responsive design for mobile and desktop
-- Dynamic data fetching and filtering
-- Cloudinary image storage
+- Geospatial validation within a 25 km radius.
+- OSRM (Open Source Routing Machine) route optimization.
+- Responsive design for mobile and desktop.
+- Dynamic data fetching and filtering.
+- Cloudinary image storage.
 
 ## 📸 Screenshots
 
@@ -285,7 +308,7 @@ Frontend runs on: `http://localhost:5173`
 
 ---
 
-## Security
+## 🔒 Security
 
 - JWT Authentication
 - Password Hashing (bcrypt)
@@ -311,7 +334,7 @@ Test coverage includes:
 
 ---
 
-## Future Improvements
+## 🚀 Future Improvements
 
 - User accounts
 - Personalized recommendations
@@ -323,7 +346,7 @@ Test coverage includes:
 
 ---
 
-## Deployment
+## ☁️ Deployment
 
 | Service | Platform |
 |----------|----------|
@@ -331,6 +354,9 @@ Test coverage includes:
 | Backend | Render |
 | Database | MongoDB Atlas |
 | Media Storage | Cloudinary |
+
+### Live Application
+https://silver-path-five.vercel.app
 
 ---
 
@@ -353,6 +379,7 @@ Test coverage includes:
 ---
 ## License
 
-This project was developed for academic purposes as part of the Bachelor of Information Technology degree program at the University of Moratuwa.
+This project is licensed for academic and educational purposes only.
+See the [LICENSE](LICENSE) file for details.
 
 [Go back to up ⬆](#-silver-path)
