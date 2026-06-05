@@ -21,7 +21,7 @@
 
   <img src="https://img.shields.io/badge/Status-Completed-success" />
   <img src="https://img.shields.io/badge/Academic_Project-UOM-salmon" />
-  
+
   <a href="https://silver-path-five.vercel.app">
     <img src="https://img.shields.io/badge/Live-Demo-success" />
   </a>
@@ -382,4 +382,4 @@ https://silver-path-five.vercel.app
 This project is licensed for academic and educational purposes only.
 See the [LICENSE](LICENSE) file for details.
 
-[Go back to up ⬆](#-silver-path)
+[Go back to top](#-silver-path)
