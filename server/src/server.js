@@ -17,7 +17,7 @@ const app = express();
 
 // middleware
 app.use(cors({
-  origin: [process.env.CLIENT_URL || 'http://localhost:5173', 'https://silver-path-backend.onrender.com'],
+  origin: [process.env.CLIENT_URL || 'http://localhost:5173', 'https://silver-path-backend.onrender.com/api'],
   credentials: true,
 }));
 app.use(express.json());

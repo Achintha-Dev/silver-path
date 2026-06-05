@@ -20,7 +20,7 @@
 ### Local Tourist Day-Visit Planner and Information System
 
 **Academic Project | Faculty of Information Technology (BIT) | University of Moratuwa**
-**Student: Achintha Bandara | Registration No: E2320235**
+
 
 [Live Demo](#) • [Features](#️-key-featuresfeatures) • [Installation](#-installation-and-setup) • [API](#️-api-endpoints)
 
